@@ -105,6 +105,17 @@ def KM(listOfPoints):
                         cluster12[k].newNumber = index + 1
                         index += 1
                     
+
+                if ((count != 0) & (oldCenter11.x == center11.x) & (oldCenter11.y == center11.y) & (oldCenter12.x == center12.x) & (oldCenter12.y == center12.y)):
+                    for k in range(len(cluster11)):
+                        cluster11[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster12)):
+                        cluster12[k].newNumber = index + 1
+                        index += 1
+
                     clusterDict2 = {'cluster1' : cluster11, 'center1' : oldCenter11, 'cluster2' : cluster12, 'center2' : oldCenter12}
                     break
 
@@ -149,6 +160,7 @@ def KM(listOfPoints):
             oldCenter22 = Location(0, 0, 0, 0)
             oldCenter23 = Location(0, 0, 0, 0)
 
+            index = 0 
             while True:
                 for i in range(len(listOfPoints)):
                     distToCenter21.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c21x, c21y))
@@ -176,6 +188,23 @@ def KM(listOfPoints):
                         cluster23[k].newNumber = index + 1
                         index += 1
                     
+                    clusterDict3 = {'cluster1' : cluster21, 'center1' : oldCenter21, 'cluster2' : cluster22, 'center2' : oldCenter22, 'cluster3' : cluster23, 'center3' : oldCenter23}
+                if ((count != 0) & (oldCenter21.x == center21.x) & (oldCenter21.y == center21.y) & (oldCenter22.x == center22.x) & (oldCenter22.y == center22.y) & (oldCenter23.x == center23.x) & (oldCenter23.y == center23.y)):
+                    for k in range(len(cluster21)):
+                        cluster21[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster22)):
+                        cluster22[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster23)):
+                        cluster23[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
                     clusterDict3 = {'cluster1' : cluster21, 'center1' : oldCenter21, 'cluster2' : cluster22, 'center2' : oldCenter22, 'cluster3' : cluster23, 'center3' : oldCenter23}
                     break
                 distToCenter21.clear()
@@ -232,6 +261,7 @@ def KM(listOfPoints):
             oldCenter33 = Location(0, 0, 0, 0)
             oldCenter34 = Location(0, 0, 0, 0)
 
+            index = 0
             while True:
                 for i in range(len(listOfPoints)):
                     distToCenter31.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c31x, c31y))
@@ -267,6 +297,28 @@ def KM(listOfPoints):
                         cluster34[k].newNumber = index + 1
                         index += 1
                     clusterDict4 = {'cluster1' : cluster31, 'center1' : oldCenter31, 'cluster2' : cluster32, 'center2' : oldCenter32, 'cluster3' : cluster33, 'center3' : oldCenter33, 'cluster4' : cluster34, 'center4' : oldCenter34}
+                if ((count != 0) & (oldCenter31.x == center31.x) & (oldCenter31.y == center31.y) & (oldCenter32.x == center32.x) & (oldCenter32.y == center32.y) & (oldCenter33.x == center33.x) & (oldCenter33.y == center33.y) & (oldCenter34.x == center34.x) & (oldCenter34.y == center34.y)):
+                    for k in range(len(cluster31)):
+                        cluster31[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster32)):
+                        cluster32[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster33)):
+                        cluster33[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster34)):
+                        cluster34[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    clusterDict4 = {'cluster1' : cluster31, 'center1' : oldCenter31, 'cluster2' : cluster32, 'center2' : oldCenter32, 'cluster3' : cluster33, 'center3' : oldCenter33, 'cluster4' : cluster34, 'center4' : oldCenter34}
                     break
                 distToCenter31.clear()
                 distToCenter32.clear()
@@ -295,6 +347,12 @@ def KM(listOfPoints):
                 count += 1
     finalDict = {'dict1' : clusterDict1, 'dict2' : clusterDict2, 'dict3' : clusterDict3, 'dict4' : clusterDict4}
     return finalDict
+
+                
+
+                
+
+    
 
                 
 
