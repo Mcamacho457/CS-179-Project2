@@ -84,8 +84,8 @@ def finalPathToFile(filename, finalPath, collectionOfDistance):
 filename = input("Enter the name of file: ")
 listOfPoints = FileRead(filename)
 dictionary = KM(listOfPoints)
-c1 = dictionary['dict2']['center1']
-cr1 = dictionary['dict2']['cluster1']
+c1 = dictionary['dict4']['center1']
+cr1 = dictionary['dict4']['cluster1']
 
 print(len(cr1))
 dm = dist_matrix(cr1)
