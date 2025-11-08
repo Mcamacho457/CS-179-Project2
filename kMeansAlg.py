@@ -71,8 +71,6 @@ def KM(listOfPoints):
             distToCenter12 = []
             cluster11 = []
             cluster12 = []
-            oldCluster11 = []
-            oldCluster12 = []
             k2 = copy.deepcopy(listOfPoints) #we use deepcopy so we manipulate the elements without messing with original array
             center11 = random.choice(listOfPoints)
             c11x = center11.x
@@ -112,8 +110,6 @@ def KM(listOfPoints):
 
                 distToCenter11.clear()
                 distToCenter12.clear()
-                oldCluster11 = cluster11
-                oldCluster12 = cluster12
                 oldCenter11 = center11
                 oldCenter12 = center12
                 center11 = newCenter(cluster11)
@@ -133,9 +129,6 @@ def KM(listOfPoints):
             cluster21 = []
             cluster22 = []
             cluster23 = []
-            oldCluster21 = []
-            oldCluster22 = []
-            oldCluster23 = []
             k3 = copy.deepcopy(listOfPoints)
             center21 = random.choice(listOfPoints)
             c21x = center21.x
@@ -188,9 +181,6 @@ def KM(listOfPoints):
                 distToCenter21.clear()
                 distToCenter22.clear()
                 distToCenter23.clear()
-                oldCluster21 = cluster21
-                oldCluster22 = cluster22
-                oldCluster23 = cluster23
                 oldCenter21 = center21
                 oldCenter22 = center22
                 oldCenter23 = center23
@@ -216,10 +206,6 @@ def KM(listOfPoints):
             cluster32 = []
             cluster33 = []
             cluster34 = []
-            oldCluster31 = []
-            oldCluster32 = []
-            oldCluster33 = []
-            oldCluster34 = []
             k4 = copy.deepcopy(listOfPoints)
             center31 = random.choice(listOfPoints)
             c31x = center31.x
@@ -236,7 +222,7 @@ def KM(listOfPoints):
             c33y = center33.y
             center34 = random.choice(listOfPoints)
             while ((center31 == center34) | (center32 == center34) | (center33 == center34)):
-                center33 = random.choice(listOfPoints)
+                center34 = random.choice(listOfPoints)
             c34x = center34.x
             c34y = center34.y
             count = 0
@@ -286,10 +272,6 @@ def KM(listOfPoints):
                 distToCenter32.clear()
                 distToCenter33.clear()
                 distToCenter34.clear()
-                oldCluster31 = cluster31
-                oldCluster32 = cluster32
-                oldCluster33 = cluster33
-                oldCluster34 = cluster34
                 oldCenter31 = center31
                 oldCenter32 = center32
                 oldCenter33 = center33
