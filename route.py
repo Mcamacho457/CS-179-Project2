@@ -3,7 +3,7 @@
 #Output: visualization of route
 #Jason
 import os # used for saving the image to the computer
-from PIL import Image, ImageDraw # pillow is used to make image
+#from PIL import Image, ImageDraw # pillow is used to make image
 
 
 def saveRouteImg(listOfPoints, finalPath, sumOfDistance, input_filename):

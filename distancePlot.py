@@ -5,7 +5,7 @@
 
 import numpy as np
 import ast
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 def analyzeDistance(filename, maxTime = 600, numPoints = 100):
     
