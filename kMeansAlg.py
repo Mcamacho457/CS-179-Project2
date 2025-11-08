@@ -92,15 +92,21 @@ def KM(listOfPoints):
                     distToCenter11.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c11x, c11y))
                     distToCenter12.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c12x, c12y))
                     if ((distToCenter11[-1] < distToCenter12[-1])):
-                        k2[i].newNumber = index + 1
                         cluster11.append(k2[i])
                     elif((distToCenter12[-1] < distToCenter11[-1])):
-                        k2[i].newNumber = index + 1
                         cluster12.append(k2[i])
-                    print(k2[i].newNumber)
-                    index += 1
+                    #print(k2[i].newNumber)
 
                 if ((count != 0) & (oldCluster11 == cluster11) & (oldCluster12 == cluster12)):
+                    for k in range(len(cluster11)):
+                        cluster11[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster12)):
+                        cluster12[k].newNumber = index + 1
+                        index += 1
+                    
                     clusterDict2 = {'cluster1' : cluster11, 'center1' : oldCenter11, 'cluster2' : cluster12, 'center2' : oldCenter12}
                     break
 
@@ -145,6 +151,7 @@ def KM(listOfPoints):
             c23x = center23.x
             c23y = center23.y
             count = 0
+            index = 0
             oldCenter21 = Location(0, 0, 0, 0)
             oldCenter22 = Location(0, 0, 0, 0)
             oldCenter23 = Location(0, 0, 0, 0)
@@ -155,16 +162,27 @@ def KM(listOfPoints):
                     distToCenter22.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c22x, c22y))
                     distToCenter23.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c23x, c23y))
                     if ((distToCenter21[-1] < distToCenter22[-1]) & (distToCenter21[-1] < distToCenter23[-1])):
-                        k3[i].newNumber = count + 1
                         cluster21.append(k3[i])
                     elif((distToCenter22[-1] < distToCenter21[-1]) & (distToCenter22[-1] < distToCenter23[-1])):
-                        k3[i].newNumber = count + 1
                         cluster22.append(k3[i])
                     elif((distToCenter23[-1] < distToCenter21[-1]) & (distToCenter23[-1] < distToCenter22[-1])):
-                        k3[i].newNumber = count + 1
                         cluster23.append(k3[i])
 
                 if ((count != 0) & (oldCluster21 == cluster21) & (oldCluster22 == cluster22) & (oldCluster23 == cluster23)):
+                    for k in range(len(cluster21)):
+                        cluster21[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster22)):
+                        cluster22[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster23)):
+                        cluster23[k].newNumber = index + 1
+                        index += 1
+                    
                     clusterDict3 = {'cluster1' : cluster21, 'center1' : oldCenter21, 'cluster2' : cluster22, 'center2' : oldCenter22, 'cluster3' : cluster22, 'center3' : oldCenter23}
                     break
                 distToCenter21.clear()
@@ -222,6 +240,7 @@ def KM(listOfPoints):
             c34x = center34.x
             c34y = center34.y
             count = 0
+            index = 0
             oldCenter31 = Location(0, 0, 0, 0)
             oldCenter32 = Location(0, 0, 0, 0)
             oldCenter33 = Location(0, 0, 0, 0)
@@ -234,19 +253,33 @@ def KM(listOfPoints):
                     distToCenter33.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c33x, c33y))
                     distToCenter34.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c34x, c34y))
                     if ((distToCenter31[-1] < distToCenter32[-1]) & (distToCenter31[-1] < distToCenter33[-1]) & (distToCenter31[-1] < distToCenter34[-1])):
-                        k4[i].newNumber = count + 1 
                         cluster31.append(k4[i])
                     elif((distToCenter32[-1] < distToCenter31[-1]) & (distToCenter32[-1] < distToCenter33[-1]) & (distToCenter32[-1] < distToCenter34[-1])):
-                        k4[i].newNumber = count + 1
                         cluster32.append(k4[i])
                     elif((distToCenter33[-1] < distToCenter31[-1]) & (distToCenter33[-1] < distToCenter32[-1]) & (distToCenter33[-1] < distToCenter34[-1])):
-                        k4[i].newNumber = count + 1
                         cluster33.append(k4[i])
                     elif((distToCenter34[-1] < distToCenter31[-1]) & (distToCenter34[-1] < distToCenter32[-1]) & (distToCenter34[-1] < distToCenter33[-1])):
-                        k4[i].newNumber = count + 1
                         cluster34.append(k4[i])
 
                 if ((count != 0) & (oldCluster31 == cluster31) & (oldCluster32 == cluster32) & (oldCluster33 == cluster33) & (oldCluster34 == cluster34)):
+                    for k in range(len(cluster31)):
+                        cluster31[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster32)):
+                        cluster32[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster33)):
+                        cluster33[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster34)):
+                        cluster34[k].newNumber = index + 1
+                        index += 1
                     clusterDict4 = {'cluster1' : cluster31, 'center1' : oldCenter31, 'cluster2' : cluster32, 'center2' : oldCenter32, 'cluster3' : cluster32, 'center3' : oldCenter33, 'cluster4' : cluster34, 'center4' : oldCenter34}
                     break
                 distToCenter31.clear()

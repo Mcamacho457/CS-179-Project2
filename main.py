@@ -84,10 +84,12 @@ def finalPathToFile(filename, finalPath, collectionOfDistance):
 filename = input("Enter the name of file: ")
 listOfPoints = FileRead(filename)
 dictionary = KM(listOfPoints)
-c1 = dictionary['dict2']['center1']
-cr1 = dictionary['dict2']['cluster1']
+c1 = dictionary['dict4']['center4']
+cr1 = dictionary['dict4']['cluster4']
 
-print(len(cr1))
+for i in range(len(cr1)):
+    print (cr1[i].newNumber)
+
 dm = dist_matrix(cr1)
 # Random NN Functions
 
