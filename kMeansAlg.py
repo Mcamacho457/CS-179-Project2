@@ -1,7 +1,263 @@
 # kmeans algorithm implemented form scratch
-class KMeans:
-    def __init__(self, num_clusters, num_random_seeds, random_state):
-        self.num_clusters = num_clusters
-        self.num_random_seeds
-        self.random_state = random_state
-    def fit()
+import random 
+from euclideanDistance import Euclidean
+from Location import Location
+
+def newCenter(cluster):
+     # If the cluster is greater than size one, we need to take the average of the clusters 
+     # The average of the locations will be the new coordinates
+     if (len(cluster) > 1):
+        sumX = 0
+        sumY = 0
+        for i in cluster:
+            sumX += i.x
+            sumY += i.y
+        newCX = sumX/len(cluster)
+        newCY = sumY/len(cluster)
+        number = 0
+        return Location(number, newCX, newCY)
+
+# k = 4 number of clusters 
+# listOfPoints is list of location objects which have x y and a number
+# center will be a randomly chosen location object
+def KM(listOfPoints):
+    clusterDict1 = {}
+    clusterDict2 = {}
+    clusterDict3 = {}
+    clusterDict4 = {}
+
+    # For 1 to 4 clusters
+    for j in range(4):
+        # For 1 cluster
+        if (j == 0):
+            distToCenter01 = []
+            cluster01 = []
+            center01 = random.choice(listOfPoints)
+            c01x = center01.x
+            c01y = center01.y
+            count = 0
+
+            # Iterate through list of points, calc the distance for each from center and put it in the cluster
+            for i in range(len(listOfPoints)):
+                distToCenter01.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c01x, c01y))
+                cluster01.append(listOfPoints[i])
+
+            # Make a new center for 1 cluster this can only be done one time    
+            center01 = newCenter(cluster01)
+            # We clear the the cluster and dist from center after finding the new center
+            distToCenter01.clear()
+            cluster01.clear()
+
+            # Same process calc the distance away from center and assign to cluster center in this case not to deep just one cluster
+            for i in range(len(listOfPoints)):
+                distToCenter01.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, center01.x, center01.y))
+                cluster01.append(listOfPoints[i])
+
+            # Return a dictionary that contains the cluster and the center
+            # The cluster so we can iterate through it
+            # The center so that we can display the point
+            clusterDict1 = {'cluster1' : cluster01, 'center1' : center01}
+        if (j == 1):
+            distToCenter11 = []
+            distToCenter12 = []
+            cluster11 = []
+            cluster12 = []
+            oldCluster11 = []
+            oldCluster12 = []
+            center11 = random.choice(listOfPoints)
+            c11x = center11.x
+            c11y = center11.y
+            center12 = random.choice(listOfPoints)
+            while (center11 == center12):
+                center12 = random.choice(listOfPoints)
+            c12x = center12.x
+            c12y = center12.y
+            count = 0
+            oldCenter11 = Location(0, 0, 0)
+            oldCenter12 = Location(0, 0, 0)
+
+            while True:
+                for i in range(len(listOfPoints)):
+                    distToCenter11.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c11x, c11y))
+                    distToCenter12.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c12x, c12y))
+                    if ((distToCenter11[-1] < distToCenter12[-1])):
+                        cluster11.append(listOfPoints[i])
+                    elif((distToCenter12[-1] < distToCenter11[-1])):
+                        cluster12.append(listOfPoints[i])
+
+                if ((count != 0) & (oldCluster11 == cluster11) & (oldCluster12 == cluster12)):
+                    clusterDict2 = {'cluster1' : cluster11, 'center1' : oldCenter11, 'cluster2' : cluster12, 'center2' : oldCenter12}
+                    break
+
+                distToCenter11.clear()
+                distToCenter12.clear()
+                oldCluster11 = cluster11[:]
+                oldCluster12 = cluster12[:]
+                oldCenter11 = center11
+                oldCenter12 = center12
+                c11x = center11.x
+                c11y = center11.y
+                c12x = center12.x
+                c12y = center12.y
+                center11 = newCenter(cluster11)
+                center12 = newCenter(cluster12)
+                cluster11.clear()
+                cluster12.clear()
+                count += 1
+        if (j == 2):
+            distToCenter21 = []
+            distToCenter22 = []
+            distToCenter23 = []
+            cluster21 = []
+            cluster22 = []
+            cluster23 = []
+            oldCluster21 = []
+            oldCluster22 = []
+            oldCluster23 = []
+            center21 = random.choice(listOfPoints)
+            c21x = center21.x
+            c21y = center21.y
+            center22 = random.choice(listOfPoints)
+            while (center21 == center22):
+                center22 = random.choice(listOfPoints)
+            c22x = center22.x
+            c22y = center22.y
+            center23 = random.choice(listOfPoints)
+            while ((center21 == center23) | (center22 == center23)):
+                center23 = random.choice(listOfPoints)
+            c23x = center23.x
+            c23y = center23.y
+            count = 0
+            oldCenter21 = Location(0, 0, 0)
+            oldCenter22 = Location(0, 0, 0)
+            oldCenter23 = Location(0, 0, 0)
+
+            while True:
+                for i in range(len(listOfPoints)):
+                    distToCenter21.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c21x, c21y))
+                    distToCenter22.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c22x, c22y))
+                    distToCenter23.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c23x, c23y))
+                    if ((distToCenter21[-1] < distToCenter22[-1]) & (distToCenter21[-1] < distToCenter23[-1])):
+                        cluster21.append(listOfPoints[i])
+                    elif((distToCenter22[-1] < distToCenter21[-1]) & (distToCenter22[-1] < distToCenter23[-1])):
+                        cluster22.append(listOfPoints[i])
+                    elif((distToCenter23[-1] < distToCenter21[-1]) & (distToCenter23[-1] < distToCenter22[-1])):
+                        cluster23.append(listOfPoints[i])
+
+                if ((i != 0) & (oldCluster21 == cluster21) & (oldCluster22 == cluster22) & (oldCluster23 == cluster23)):
+                    clusterDict3 = {'cluster1' : cluster21, 'center1' : oldCenter21, 'cluster2' : cluster22, 'center2' : oldCenter22, 'cluster3' : cluster22, 'center3' : oldCenter23}
+                    break
+                distToCenter21.clear()
+                distToCenter22.clear()
+                distToCenter23.clear()
+                oldCluster21 = cluster21
+                oldCluster22 = cluster22
+                oldCluster23 = cluster23
+                oldCenter21 = center21
+                oldCenter22 = center22
+                oldCenter23 = center23
+                c21x = center21.x
+                c21y = center21.y
+                c22x = center22.x
+                c22y = center22.y
+                c23x = center23.x
+                c23y = center23.y
+                center21 = newCenter(cluster21)
+                center22 = newCenter(cluster22)
+                center23 = newCenter(cluster23)
+                cluster21.clear()
+                cluster22.clear()
+                cluster23.clear()
+                count += 1
+        if (j == 3):
+            distToCenter31 = []
+            distToCenter32 = []
+            distToCenter33 = []
+            distToCenter34 = []
+            cluster31 = []
+            cluster32 = []
+            cluster33 = []
+            cluster34 = []
+            oldCluster31 = []
+            oldCluster32 = []
+            oldCluster33 = []
+            oldCluster34 = []
+            center31 = random.choice(listOfPoints)
+            c31x = center31.x
+            c31y = center31.y
+            center32 = random.choice(listOfPoints)
+            while (center31 == center32):
+                center32 = random.choice(listOfPoints)
+            c32x = center32.x
+            c32y = center32.y
+            center33 = random.choice(listOfPoints)
+            while ((center31 == center33) | (center32 == center33)):
+                center33 = random.choice(listOfPoints)
+            c33x = center33.x
+            c33y = center33.y
+            center34 = random.choice(listOfPoints)
+            while ((center31 == center34) | (center32 == center34) | (center33 == center34)):
+                center33 = random.choice(listOfPoints)
+            c34x = center34.x
+            c34y = center34.y
+            count = 0
+            oldCenter31 = Location(0, 0, 0)
+            oldCenter32 = Location(0, 0, 0)
+            oldCenter33 = Location(0, 0, 0)
+            oldCenter34 = Location(0, 0, 0)
+
+            while True:
+                for i in range(len(listOfPoints)):
+                    distToCenter31.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c31x, c31y))
+                    distToCenter32.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c32x, c32y))
+                    distToCenter33.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c33x, c33y))
+                    distToCenter34.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c34x, c34y))
+                    if ((distToCenter31[-1] < distToCenter32[-1]) & (distToCenter31[-1] < distToCenter33[-1]) & (distToCenter31[-1] < distToCenter34[-1])):
+                        cluster31.append(listOfPoints[i])
+                    elif((distToCenter32[-1] < distToCenter31[-1]) & (distToCenter32[-1] < distToCenter33[-1]) & (distToCenter32[-1] < distToCenter34[-1])):
+                        cluster32.append(listOfPoints[i])
+                    elif((distToCenter33[-1] < distToCenter31[-1]) & (distToCenter33[-1] < distToCenter32[-1]) & (distToCenter33[-1] < distToCenter34[-1])):
+                        cluster33.append(listOfPoints[i])
+                    elif((distToCenter34[-1] < distToCenter31[-1]) & (distToCenter34[-1] < distToCenter32[-1]) & (distToCenter34[-1] < distToCenter33[-1])):
+                        cluster34.append(listOfPoints[i])
+
+                if ((i != 0) & (oldCluster31 == cluster31) & (oldCluster32 == cluster32) & (oldCluster33 == cluster33) & (oldCluster34 == cluster34)):
+                    clusterDict4 = {'cluster1' : cluster31, 'center1' : oldCenter31, 'cluster2' : cluster32, 'center2' : oldCenter32, 'cluster3' : cluster32, 'center3' : oldCenter33, 'cluster4' : cluster34, 'center4' : oldCenter34}
+                    break
+                distToCenter31.clear()
+                distToCenter32.clear()
+                distToCenter33.clear()
+                distToCenter34.clear()
+                oldCluster31 = cluster31
+                oldCluster32 = cluster32
+                oldCluster33 = cluster33
+                oldCluster34 = cluster34
+                oldCenter31 = center31
+                oldCenter32 = center32
+                oldCenter33 = center33
+                oldCenter34 = center34
+                c31x = center31.x
+                c31y = center31.y
+                c32x = center32.x
+                c32y = center32.y
+                c33x = center33.x
+                c33y = center33.y
+                c34x = center34.x
+                c34y = center34.y
+                center31 = newCenter(cluster31)
+                center32 = newCenter(cluster32)
+                center33 = newCenter(cluster33)
+                center34 = newCenter(cluster34)
+                cluster31.clear()
+                cluster32.clear()
+                cluster33.clear()
+                cluster34.clear()
+                count += 1
+    finalDict = {'dict1' : clusterDict1, 'dict2' : clusterDict2, 'dict3' : clusterDict3, 'dict4' : clusterDict4}
+    return finalDict
+
+                
+
+                
+
+    
