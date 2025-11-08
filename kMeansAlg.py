@@ -76,7 +76,7 @@ def KM(listOfPoints):
             c11x = center11.x
             c11y = center11.y
             center12 = random.choice(listOfPoints)
-            while (center11.x == center12.x & center11.y == center12.y):
+            while ((center11.x == center12.x) & (center11.y == center12.y)):
                 center12 = random.choice(listOfPoints)
             c12x = center12.x
             c12y = center12.y
@@ -134,12 +134,12 @@ def KM(listOfPoints):
             c21x = center21.x
             c21y = center21.y
             center22 = random.choice(listOfPoints)
-            while (center21.x == center22.x & center21.y == center22.y):
+            while ((center21.x == center22.x) & (center21.y == center22.y)):
                 center22 = random.choice(listOfPoints)
             c22x = center22.x
             c22y = center22.y
             center23 = random.choice(listOfPoints)
-            while ((center21.x == center23.x & center21.y == center23.y) | (center22.x == center23.x & center22.y == center23.y)):
+            while (((center21.x == center23.x) & (center21.y == center23.y)) | ((center22.x == center23.x) & (center22.y == center23.y))):
                 center23 = random.choice(listOfPoints)
             c23x = center23.x
             c23y = center23.y
@@ -211,17 +211,17 @@ def KM(listOfPoints):
             c31x = center31.x
             c31y = center31.y
             center32 = random.choice(listOfPoints)
-            while (center31.x == center32.x & center31.y == center32.y):
+            while ((center31.x == center32.x) & (center31.y == center32.y)):
                 center32 = random.choice(listOfPoints)
             c32x = center32.x
             c32y = center32.y
             center33 = random.choice(listOfPoints)
-            while ((center31.x == center33.x & center31.y == center33.y) | (center32.x == center33.x & center32.y == center33.y)):
+            while (((center31.x == center33.x) & (center31.y == center33.y)) | ((center32.x == center33.x) & (center32.y == center33.y))):
                 center33 = random.choice(listOfPoints)
             c33x = center33.x
             c33y = center33.y
             center34 = random.choice(listOfPoints)
-            while ((center31.x == center34.x & center31.y == center34.y) | (center32.x == center34.x & center32.y == center34.y) | (center33.x == center34.x & center33.y == center34.y)):
+            while (((center31.x == center34.x) & (center31.y == center34.y)) | ((center32.x == center34.x) & (center32.y == center34.y)) | ((center33.x == center34.x) & (center33.y == center34.y))):
                 center34 = random.choice(listOfPoints)
             c34x = center34.x
             c34y = center34.y
