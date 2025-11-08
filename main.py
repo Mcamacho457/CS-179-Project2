@@ -37,7 +37,7 @@ def FileRead(filename):
                     x = float(splitLine[0])
                     y = float(splitLine[1])
                     number = number + 1
-                    node = Location(number, x, y)
+                    node = Location(number, 0, x, y)
                     # Add the node into our list of points which stores our object location
                     listOfPoints.append(node)
                 except:
@@ -84,10 +84,11 @@ def finalPathToFile(filename, finalPath, collectionOfDistance):
 filename = input("Enter the name of file: ")
 listOfPoints = FileRead(filename)
 dictionary = KM(listOfPoints)
-c1 = dictionary['dict2']['center2']
-cr1 = dictionary['dict2']['cluster2']
-dm = dist_matrix(cr1)
+c1 = dictionary['dict2']['center1']
+cr1 = dictionary['dict2']['cluster1']
 
+print(len(cr1))
+dm = dist_matrix(cr1)
 # Random NN Functions
 
 NNisDone = False
