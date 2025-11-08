@@ -76,7 +76,7 @@ def KM(listOfPoints):
             c11x = center11.x
             c11y = center11.y
             center12 = random.choice(listOfPoints)
-            while (center11 == center12):
+            while (center11.x == center12.x & center11.y == center12.y):
                 center12 = random.choice(listOfPoints)
             c12x = center12.x
             c12y = center12.y
@@ -93,6 +93,18 @@ def KM(listOfPoints):
                         cluster11.append(k2[i])
                     elif((distToCenter12[-1] < distToCenter11[-1])):
                         cluster12.append(k2[i])
+                    #print(k2[i].newNumber)
+
+                if ((count != 0) & (oldCenter11.x == center11.x) & (oldCenter11.y == center11.y) & (oldCenter12.x == center12.x) & (oldCenter12.y == center12.y)):
+                    for k in range(len(cluster11)):
+                        cluster11[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster12)):
+                        cluster12[k].newNumber = index + 1
+                        index += 1
+                    
 
                 if ((count != 0) & (oldCenter11.x == center11.x) & (oldCenter11.y == center11.y) & (oldCenter12.x == center12.x) & (oldCenter12.y == center12.y)):
                     for k in range(len(cluster11)):
@@ -133,16 +145,17 @@ def KM(listOfPoints):
             c21x = center21.x
             c21y = center21.y
             center22 = random.choice(listOfPoints)
-            while (center21 == center22):
+            while (center21.x == center22.x & center21.y == center22.y):
                 center22 = random.choice(listOfPoints)
             c22x = center22.x
             c22y = center22.y
             center23 = random.choice(listOfPoints)
-            while ((center21 == center23) | (center22 == center23)):
+            while ((center21.x == center23.x & center21.y == center23.y) | (center22.x == center23.x & center22.y == center23.y)):
                 center23 = random.choice(listOfPoints)
             c23x = center23.x
             c23y = center23.y
             count = 0
+            index = 0
             oldCenter21 = Location(0, 0, 0, 0)
             oldCenter22 = Location(0, 0, 0, 0)
             oldCenter23 = Location(0, 0, 0, 0)
@@ -160,6 +173,22 @@ def KM(listOfPoints):
                     elif((distToCenter23[-1] < distToCenter21[-1]) & (distToCenter23[-1] < distToCenter22[-1])):
                         cluster23.append(k3[i])
 
+                if ((count != 0) & (oldCenter21.x == center21.x) & (oldCenter21.y == center21.y) & (oldCenter22.x == center22.x) & (oldCenter22.y == center22.y) & (oldCenter23.x == center23.x) & (oldCenter23.y == center23.y)):
+                    for k in range(len(cluster21)):
+                        cluster21[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster22)):
+                        cluster22[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster23)):
+                        cluster23[k].newNumber = index + 1
+                        index += 1
+                    
+                    clusterDict3 = {'cluster1' : cluster21, 'center1' : oldCenter21, 'cluster2' : cluster22, 'center2' : oldCenter22, 'cluster3' : cluster23, 'center3' : oldCenter23}
                 if ((count != 0) & (oldCenter21.x == center21.x) & (oldCenter21.y == center21.y) & (oldCenter22.x == center22.x) & (oldCenter22.y == center22.y) & (oldCenter23.x == center23.x) & (oldCenter23.y == center23.y)):
                     for k in range(len(cluster21)):
                         cluster21[k].newNumber = index + 1
@@ -211,21 +240,22 @@ def KM(listOfPoints):
             c31x = center31.x
             c31y = center31.y
             center32 = random.choice(listOfPoints)
-            while (center31 == center32):
+            while (center31.x == center32.x & center31.y == center32.y):
                 center32 = random.choice(listOfPoints)
             c32x = center32.x
             c32y = center32.y
             center33 = random.choice(listOfPoints)
-            while ((center31 == center33) | (center32 == center33)):
+            while ((center31.x == center33.x & center31.y == center33.y) | (center32.x == center33.x & center32.y == center33.y)):
                 center33 = random.choice(listOfPoints)
             c33x = center33.x
             c33y = center33.y
             center34 = random.choice(listOfPoints)
-            while ((center31 == center34) | (center32 == center34) | (center33 == center34)):
-                center33 = random.choice(listOfPoints)
+            while ((center31.x == center34.x & center31.y == center34.y) | (center32.x == center34.x & center32.y == center34.y) | (center33.x == center34.x & center33.y == center34.y)):
+                center34 = random.choice(listOfPoints)
             c34x = center34.x
             c34y = center34.y
             count = 0
+            index = 0
             oldCenter31 = Location(0, 0, 0, 0)
             oldCenter32 = Location(0, 0, 0, 0)
             oldCenter33 = Location(0, 0, 0, 0)
@@ -247,6 +277,26 @@ def KM(listOfPoints):
                     elif((distToCenter34[-1] < distToCenter31[-1]) & (distToCenter34[-1] < distToCenter32[-1]) & (distToCenter34[-1] < distToCenter33[-1])):
                         cluster34.append(k4[i])
 
+                if ((count != 0) & (oldCenter31.x == center31.x) & (oldCenter31.y == center31.y) & (oldCenter32.x == center32.x) & (oldCenter32.y == center32.y) & (oldCenter33.x == center33.x) & (oldCenter33.y == center33.y) & (oldCenter34.x == center34.x) & (oldCenter34.y == center34.y)):
+                    for k in range(len(cluster31)):
+                        cluster31[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster32)):
+                        cluster32[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster33)):
+                        cluster33[k].newNumber = index + 1
+                        index += 1
+                    index = 0
+
+                    for k in range(len(cluster34)):
+                        cluster34[k].newNumber = index + 1
+                        index += 1
+                    clusterDict4 = {'cluster1' : cluster31, 'center1' : oldCenter31, 'cluster2' : cluster32, 'center2' : oldCenter32, 'cluster3' : cluster33, 'center3' : oldCenter33, 'cluster4' : cluster34, 'center4' : oldCenter34}
                 if ((count != 0) & (oldCenter31.x == center31.x) & (oldCenter31.y == center31.y) & (oldCenter32.x == center32.x) & (oldCenter32.y == center32.y) & (oldCenter33.x == center33.x) & (oldCenter33.y == center33.y) & (oldCenter34.x == center34.x) & (oldCenter34.y == center34.y)):
                     for k in range(len(cluster31)):
                         cluster31[k].newNumber = index + 1
