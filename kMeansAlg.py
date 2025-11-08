@@ -1,5 +1,6 @@
 # kmeans algorithm implemented form scratch
 import random 
+import copy #here is link for refrence https://www.geeksforgeeks.org/python/copy-python-deep-copy-shallow-copy/#
 from euclideanDistance import Euclidean
 from Location import Location
 
@@ -15,7 +16,7 @@ def newCenter(cluster):
         newCX = sumX/len(cluster)
         newCY = sumY/len(cluster)
         number = 0
-        return Location(number, newCX, newCY)
+        return Location(number, 0, newCX, newCY)
 
 # k = 4 number of clusters 
 # listOfPoints is list of location objects which have x y and a number
@@ -26,12 +27,18 @@ def KM(listOfPoints):
     clusterDict3 = {}
     clusterDict4 = {}
 
+    #so each k has their own newNumber for indexing on CNN
+    k1 = []
+    k2 = []
+    k3 = []
+    k4 = []
     # For 1 to 4 clusters
     for j in range(4):
         # For 1 cluster
         if (j == 0):
             distToCenter01 = []
             cluster01 = []
+            k1 = copy.deepcopy(listOfPoints)
             center01 = random.choice(listOfPoints)
             c01x = center01.x
             c01y = center01.y
@@ -40,18 +47,20 @@ def KM(listOfPoints):
             # Iterate through list of points, calc the distance for each from center and put it in the cluster
             for i in range(len(listOfPoints)):
                 distToCenter01.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c01x, c01y))
-                cluster01.append(listOfPoints[i])
-
+                k1[i].newNumber = count + 1
+                cluster01.append(k1[i])
             # Make a new center for 1 cluster this can only be done one time    
             center01 = newCenter(cluster01)
             # We clear the the cluster and dist from center after finding the new center
             distToCenter01.clear()
             cluster01.clear()
-
+            count = 0
             # Same process calc the distance away from center and assign to cluster center in this case not to deep just one cluster
             for i in range(len(listOfPoints)):
                 distToCenter01.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, center01.x, center01.y))
-                cluster01.append(listOfPoints[i])
+                k1[i].newNumber = count + 1
+                cluster01.append(k1[i])
+                count += 1
 
             # Return a dictionary that contains the cluster and the center
             # The cluster so we can iterate through it
@@ -64,6 +73,7 @@ def KM(listOfPoints):
             cluster12 = []
             oldCluster11 = []
             oldCluster12 = []
+            k2 = copy.deepcopy(listOfPoints) #we use deepcopy so we manipulate the elements without messing with original array
             center11 = random.choice(listOfPoints)
             c11x = center11.x
             c11y = center11.y
@@ -73,17 +83,22 @@ def KM(listOfPoints):
             c12x = center12.x
             c12y = center12.y
             count = 0
-            oldCenter11 = Location(0, 0, 0)
-            oldCenter12 = Location(0, 0, 0)
+            oldCenter11 = Location(0, 0, 0, 0)
+            oldCenter12 = Location(0, 0, 0, 0)
 
+            index = 0
             while True:
                 for i in range(len(listOfPoints)):
                     distToCenter11.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c11x, c11y))
                     distToCenter12.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c12x, c12y))
                     if ((distToCenter11[-1] < distToCenter12[-1])):
-                        cluster11.append(listOfPoints[i])
+                        k2[i].newNumber = index + 1
+                        cluster11.append(k2[i])
                     elif((distToCenter12[-1] < distToCenter11[-1])):
-                        cluster12.append(listOfPoints[i])
+                        k2[i].newNumber = index + 1
+                        cluster12.append(k2[i])
+                    print(k2[i].newNumber)
+                    index += 1
 
                 if ((count != 0) & (oldCluster11 == cluster11) & (oldCluster12 == cluster12)):
                     clusterDict2 = {'cluster1' : cluster11, 'center1' : oldCenter11, 'cluster2' : cluster12, 'center2' : oldCenter12}
@@ -91,8 +106,8 @@ def KM(listOfPoints):
 
                 distToCenter11.clear()
                 distToCenter12.clear()
-                oldCluster11 = cluster11[:]
-                oldCluster12 = cluster12[:]
+                oldCluster11 = cluster11
+                oldCluster12 = cluster12
                 oldCenter11 = center11
                 oldCenter12 = center12
                 center11 = newCenter(cluster11)
@@ -103,6 +118,7 @@ def KM(listOfPoints):
                 c12y = center12.y
                 cluster11.clear()
                 cluster12.clear()
+                index = 0
                 count += 1
         if (j == 2):
             distToCenter21 = []
@@ -114,6 +130,7 @@ def KM(listOfPoints):
             oldCluster21 = []
             oldCluster22 = []
             oldCluster23 = []
+            k3 = copy.deepcopy(listOfPoints)
             center21 = random.choice(listOfPoints)
             c21x = center21.x
             c21y = center21.y
@@ -128,9 +145,9 @@ def KM(listOfPoints):
             c23x = center23.x
             c23y = center23.y
             count = 0
-            oldCenter21 = Location(0, 0, 0)
-            oldCenter22 = Location(0, 0, 0)
-            oldCenter23 = Location(0, 0, 0)
+            oldCenter21 = Location(0, 0, 0, 0)
+            oldCenter22 = Location(0, 0, 0, 0)
+            oldCenter23 = Location(0, 0, 0, 0)
 
             while True:
                 for i in range(len(listOfPoints)):
@@ -138,11 +155,14 @@ def KM(listOfPoints):
                     distToCenter22.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c22x, c22y))
                     distToCenter23.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c23x, c23y))
                     if ((distToCenter21[-1] < distToCenter22[-1]) & (distToCenter21[-1] < distToCenter23[-1])):
-                        cluster21.append(listOfPoints[i])
+                        k3[i].newNumber = count + 1
+                        cluster21.append(k3[i])
                     elif((distToCenter22[-1] < distToCenter21[-1]) & (distToCenter22[-1] < distToCenter23[-1])):
-                        cluster22.append(listOfPoints[i])
+                        k3[i].newNumber = count + 1
+                        cluster22.append(k3[i])
                     elif((distToCenter23[-1] < distToCenter21[-1]) & (distToCenter23[-1] < distToCenter22[-1])):
-                        cluster23.append(listOfPoints[i])
+                        k3[i].newNumber = count + 1
+                        cluster23.append(k3[i])
 
                 if ((count != 0) & (oldCluster21 == cluster21) & (oldCluster22 == cluster22) & (oldCluster23 == cluster23)):
                     clusterDict3 = {'cluster1' : cluster21, 'center1' : oldCenter21, 'cluster2' : cluster22, 'center2' : oldCenter22, 'cluster3' : cluster22, 'center3' : oldCenter23}
@@ -182,6 +202,7 @@ def KM(listOfPoints):
             oldCluster32 = []
             oldCluster33 = []
             oldCluster34 = []
+            k4 = copy.deepcopy(listOfPoints)
             center31 = random.choice(listOfPoints)
             c31x = center31.x
             c31y = center31.y
@@ -201,10 +222,10 @@ def KM(listOfPoints):
             c34x = center34.x
             c34y = center34.y
             count = 0
-            oldCenter31 = Location(0, 0, 0)
-            oldCenter32 = Location(0, 0, 0)
-            oldCenter33 = Location(0, 0, 0)
-            oldCenter34 = Location(0, 0, 0)
+            oldCenter31 = Location(0, 0, 0, 0)
+            oldCenter32 = Location(0, 0, 0, 0)
+            oldCenter33 = Location(0, 0, 0, 0)
+            oldCenter34 = Location(0, 0, 0, 0)
 
             while True:
                 for i in range(len(listOfPoints)):
@@ -213,13 +234,17 @@ def KM(listOfPoints):
                     distToCenter33.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c33x, c33y))
                     distToCenter34.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c34x, c34y))
                     if ((distToCenter31[-1] < distToCenter32[-1]) & (distToCenter31[-1] < distToCenter33[-1]) & (distToCenter31[-1] < distToCenter34[-1])):
-                        cluster31.append(listOfPoints[i])
+                        k4[i].newNumber = count + 1 
+                        cluster31.append(k4[i])
                     elif((distToCenter32[-1] < distToCenter31[-1]) & (distToCenter32[-1] < distToCenter33[-1]) & (distToCenter32[-1] < distToCenter34[-1])):
-                        cluster32.append(listOfPoints[i])
+                        k4[i].newNumber = count + 1
+                        cluster32.append(k4[i])
                     elif((distToCenter33[-1] < distToCenter31[-1]) & (distToCenter33[-1] < distToCenter32[-1]) & (distToCenter33[-1] < distToCenter34[-1])):
-                        cluster33.append(listOfPoints[i])
+                        k4[i].newNumber = count + 1
+                        cluster33.append(k4[i])
                     elif((distToCenter34[-1] < distToCenter31[-1]) & (distToCenter34[-1] < distToCenter32[-1]) & (distToCenter34[-1] < distToCenter33[-1])):
-                        cluster34.append(listOfPoints[i])
+                        k4[i].newNumber = count + 1
+                        cluster34.append(k4[i])
 
                 if ((count != 0) & (oldCluster31 == cluster31) & (oldCluster32 == cluster32) & (oldCluster33 == cluster33) & (oldCluster34 == cluster34)):
                     clusterDict4 = {'cluster1' : cluster31, 'center1' : oldCenter31, 'cluster2' : cluster32, 'center2' : oldCenter32, 'cluster3' : cluster32, 'center3' : oldCenter33, 'cluster4' : cluster34, 'center4' : oldCenter34}

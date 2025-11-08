@@ -2,8 +2,9 @@ from euclideanDistance import Euclidean
 import numpy as np
 
 class Location:
-    def __init__(self, number, x, y):
+    def __init__(self, number, newNumber, x, y):
         self.number = number
+        self.newNumber = newNumber
         self.x = x
         self.y = y
 
@@ -29,9 +30,9 @@ def ClassicNN(pts_array, dist_matrix):
     
     curr_node = pts_array[0]
 
-    while (len(idx_visited) != num_interm_nodes-1) and ((curr_node.number - 1) not in idx_visited) and (bool(idx_not_visited) == True):
+    while (len(idx_visited) != num_interm_nodes-1) and ((curr_node.newNumber - 1) not in idx_visited) and (bool(idx_not_visited) == True):
         # add current node to visited set and path, and remove the current node index from the not visited set (essentially swap the indices)
-        curr_node_idx = curr_node.number - 1
+        curr_node_idx = curr_node.newNumber - 1
         idx_visited.add(curr_node_idx)
         idx_not_visited.remove(curr_node_idx)
         path.append(curr_node)
@@ -58,7 +59,7 @@ def ClassicNN(pts_array, dist_matrix):
         curr_node = closest_node
 
     # now visit last node (return to landing pad)
-    last_curr_node_idx = curr_node.number - 1
+    last_curr_node_idx = curr_node.newNumber - 1
     idx_visited.add(last_curr_node_idx)
     if (last_curr_node_idx in idx_not_visited):
         idx_not_visited.remove(last_curr_node_idx)
@@ -80,7 +81,7 @@ def ClassicNN(pts_array, dist_matrix):
     curr_dist += return_dist
 
     # adds the last nodes index to the visited set
-    return_node_idx = return_node.number - 1
+    return_node_idx = return_node.newNumber - 1
     idx_visited.add(return_node_idx)
 
     # appends the last node to the path so that we have a path in the form: 1 5 4 1

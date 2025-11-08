@@ -24,9 +24,9 @@ def ModifiedNN(pts_array, dist_matrix, path_to_beat, dist_to_beat):
     # at this point curr_node is node 1 with coordinates = (82.0, 50.0)
     curr_node = pts_array[0]
 
-    while (len(idx_visited) != num_interm_nodes - 1) and ((curr_node.number - 1) not in idx_visited) and (bool(idx_not_visited) == True):
+    while (len(idx_visited) != num_interm_nodes - 1) and ((curr_node.newNumber - 1) not in idx_visited) and (bool(idx_not_visited) == True):
         # add current node to visited set and path, and remove the current node index from the not visited set (essentially swap the indices)
-        curr_node_idx = curr_node.number - 1
+        curr_node_idx = curr_node.newNumber - 1
         idx_visited.add(curr_node_idx)
         idx_not_visited.remove(curr_node_idx)
         path.append(curr_node)
@@ -95,7 +95,7 @@ def ModifiedNN(pts_array, dist_matrix, path_to_beat, dist_to_beat):
         # print(f"2nd Closest Node distance: {closest_node_dist2}")
         # print(f"2nd Closest Node index: {closest_node_idx2}")
     # now visit last node (return to landing pad)
-    last_curr_node_idx = curr_node.number - 1
+    last_curr_node_idx = curr_node.newNumber - 1
     idx_visited.add(last_curr_node_idx)
     # print(f"Not visited set after main part of algorithm:")
     # print(idx_not_visited)
@@ -111,7 +111,7 @@ def ModifiedNN(pts_array, dist_matrix, path_to_beat, dist_to_beat):
     return_dist = neighbor_nodes[num_interm_nodes]
     return_node = pts_array[num_interm_nodes]
     curr_dist += return_dist
-    return_node_idx = return_node.number - 1
+    return_node_idx = return_node.newNumber - 1
     idx_visited.add(return_node_idx)
     path.append(return_node)
 
