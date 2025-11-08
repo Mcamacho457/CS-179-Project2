@@ -7,6 +7,7 @@ from distancePlot import analyzeDistance
 from ClassicNN import ClassicNN
 from ModifiedNN import ModifiedNN
 from Location import Location
+from kMeansAlg import KMeans
 import threading
 import time
 import os
@@ -60,8 +61,8 @@ def FileRead(filename):
         exit()
 
     # The drone is allowed a maximum of 256 points that it can reach
-    if (len(listOfPoints) > 256):
-        print("N is greater than 256")
+    if (len(listOfPoints) > 10000):
+        print("N is greater than 10000")
         exit()
     
     # This function returns the list of points array which contains object location
@@ -72,7 +73,19 @@ directory = "test_cases"
 filename = os.path.join(directory, filename)
 print(filename)
 listOfPoints = FileRead(filename)
-listOfPoints[-1].number = 1
 
-for i in range(0, len(listOfPoints)):
-    print(f"Number: {listOfPoints.number}, ({listOfPoints.x}, {listOfPoints.y})")
+km = KMeans(num_clusters = 2, num_random_seeds = 10, random_state = 42)
+solution_dict = km.fit(listOfPoints)
+cluster1 = solution_dict["cluster1"]
+cluster2 = solution_dict["cluster2"]
+for i in range(0, len(cluster1)):
+    if i == 0:
+        print("--Cluster1--")
+    if i < 10:
+        print(f"Number: {cluster1[i].number}, ({cluster1[i].x}, {cluster1[i].y})")
+
+for i in range(0, len(cluster2)):
+    if i == 0:
+        print("--Cluster2--")
+    if i < 10:
+        print(f"Number: {cluster2[i].number}, ({cluster2[i].x}, {cluster2[i].y})")
