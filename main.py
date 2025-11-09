@@ -2,7 +2,7 @@ import math
 import numpy as np
 from DistanceMatrix import dist_matrix 
 from euclideanDistance import Euclidean
-from route import saveRouteImg
+from route import saveClusterRoutesImg
 #from distancePlot import analyzeDistance
 from ClassicNN import ClassicNN
 from ModifiedNN import ModifiedNN
@@ -77,12 +77,14 @@ def writeToDistanceFile(collectionOfDistance):
 
 # This writes the solution for which nodes to visit e.g. "1 2 10 3 1"
 def finalPathToFile(filename, finalPath, collectionOfDistance):
-    with open(f"{filename}_SOLUTION_{int(round(collectionOfDistance[-1][0]))}.txt", "w") as outFile:
+    with open(f"{filename.split('/')[-1]}_SOLUTION_{int(round(collectionOfDistance[-1][0]))}.txt", "w") as outFile:
         for i in finalPath:
             outFile.write(f"{i.number} \n")
     return outFile.name
 
 filename = input("Enter the name of file: ")
+directory = "test_cases"
+filename = os.path.join(directory, filename)
 listOfPoints = FileRead(filename)
 dictionary = KM(listOfPoints)
 
