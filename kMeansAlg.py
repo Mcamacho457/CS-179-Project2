@@ -17,6 +17,10 @@ def newCenter(cluster):
         newCY = sumY/len(cluster)
         number = 0
         return Location(number, 0, newCX, newCY)
+     # if there is only one point in the cluster then we assign the center to that data points coordinates
+     # to minimize the distance from the center for that cluster
+     else:
+         return Location(number, 0, cluster[0].x, cluster[0].y)
 
 # k = 4 number of clusters 
 # listOfPoints is list of location objects which have x y and a number
@@ -42,25 +46,20 @@ def KM(listOfPoints):
             center01 = random.choice(listOfPoints)
             c01x = center01.x
             c01y = center01.y
-            count = 0
+            index = 0
 
             # Iterate through list of points, calc the distance for each from center and put it in the cluster
             for i in range(len(listOfPoints)):
                 distToCenter01.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, c01x, c01y))
-                k1[i].newNumber = count + 1
+                # The way our classic nn and modified nn are implemented we need to reindex the cluster to iterate through it
+                k1[i].newNumber = index + 1
                 cluster01.append(k1[i])
+                index += 1
             # Make a new center for 1 cluster this can only be done one time    
             center01 = newCenter(cluster01)
             # We clear the the cluster and dist from center after finding the new center
             distToCenter01.clear()
-            cluster01.clear()
-            count = 0
-            # Same process calc the distance away from center and assign to cluster center in this case not to deep just one cluster
-            for i in range(len(listOfPoints)):
-                distToCenter01.append(Euclidean(listOfPoints[i].x, listOfPoints[i].y, center01.x, center01.y))
-                k1[i].newNumber = count + 1
-                cluster01.append(k1[i])
-                count += 1
+            index = 0
 
             # Return a dictionary that contains the cluster and the center
             # The cluster so we can iterate through it
@@ -93,18 +92,7 @@ def KM(listOfPoints):
                         cluster11.append(k2[i])
                     elif((distToCenter12[-1] < distToCenter11[-1])):
                         cluster12.append(k2[i])
-                    #print(k2[i].newNumber)
-
-                if ((count != 0) & (oldCenter11.x == center11.x) & (oldCenter11.y == center11.y) & (oldCenter12.x == center12.x) & (oldCenter12.y == center12.y)):
-                    for k in range(len(cluster11)):
-                        cluster11[k].newNumber = index + 1
-                        index += 1
-                    index = 0
-
-                    for k in range(len(cluster12)):
-                        cluster12[k].newNumber = index + 1
-                        index += 1
-                    
+                    #print(k2[i].newNumber)              
 
                 if ((count != 0) & (oldCenter11.x == center11.x) & (oldCenter11.y == center11.y) & (oldCenter12.x == center12.x) & (oldCenter12.y == center12.y)):
                     for k in range(len(cluster11)):
@@ -173,23 +161,6 @@ def KM(listOfPoints):
                     elif((distToCenter23[-1] < distToCenter21[-1]) & (distToCenter23[-1] < distToCenter22[-1])):
                         cluster23.append(k3[i])
 
-                if ((count != 0) & (oldCenter21.x == center21.x) & (oldCenter21.y == center21.y) & (oldCenter22.x == center22.x) & (oldCenter22.y == center22.y) & (oldCenter23.x == center23.x) & (oldCenter23.y == center23.y)):
-                    for k in range(len(cluster21)):
-                        cluster21[k].newNumber = index + 1
-                        index += 1
-                    index = 0
-
-                    for k in range(len(cluster22)):
-                        cluster22[k].newNumber = index + 1
-                        index += 1
-                    index = 0
-
-                    for k in range(len(cluster23)):
-                        cluster23[k].newNumber = index + 1
-                        index += 1
-                    index = 0
-                    
-                    clusterDict3 = {'cluster1' : cluster21, 'center1' : oldCenter21, 'cluster2' : cluster22, 'center2' : oldCenter22, 'cluster3' : cluster23, 'center3' : oldCenter23}
                 if ((count != 0) & (oldCenter21.x == center21.x) & (oldCenter21.y == center21.y) & (oldCenter22.x == center22.x) & (oldCenter22.y == center22.y) & (oldCenter23.x == center23.x) & (oldCenter23.y == center23.y)):
                     for k in range(len(cluster21)):
                         cluster21[k].newNumber = index + 1
@@ -277,29 +248,7 @@ def KM(listOfPoints):
                         cluster33.append(k4[i])
                     elif((distToCenter34[-1] < distToCenter31[-1]) & (distToCenter34[-1] < distToCenter32[-1]) & (distToCenter34[-1] < distToCenter33[-1])):
                         cluster34.append(k4[i])
-
-                if ((count != 0) & (oldCenter31.x == center31.x) & (oldCenter31.y == center31.y) & (oldCenter32.x == center32.x) & (oldCenter32.y == center32.y) & (oldCenter33.x == center33.x) & (oldCenter33.y == center33.y) & (oldCenter34.x == center34.x) & (oldCenter34.y == center34.y)):
-                    for k in range(len(cluster31)):
-                        cluster31[k].newNumber = index + 1
-                        index += 1
-                    index = 0
-
-                    for k in range(len(cluster32)):
-                        cluster32[k].newNumber = index + 1
-                        index += 1
-                    index = 0
-
-                    for k in range(len(cluster33)):
-                        cluster33[k].newNumber = index + 1
-                        index += 1
-                    index = 0
-
-                    for k in range(len(cluster34)):
-                        cluster34[k].newNumber = index + 1
-                        index += 1
-                    index = 0
-
-                    clusterDict4 = {'cluster1' : cluster31, 'center1' : oldCenter31, 'cluster2' : cluster32, 'center2' : oldCenter32, 'cluster3' : cluster33, 'center3' : oldCenter33, 'cluster4' : cluster34, 'center4' : oldCenter34}
+  
                 if ((count != 0) & (oldCenter31.x == center31.x) & (oldCenter31.y == center31.y) & (oldCenter32.x == center32.x) & (oldCenter32.y == center32.y) & (oldCenter33.x == center33.x) & (oldCenter33.y == center33.y) & (oldCenter34.x == center34.x) & (oldCenter34.y == center34.y)):
                     for k in range(len(cluster31)):
                         cluster31[k].newNumber = index + 1
