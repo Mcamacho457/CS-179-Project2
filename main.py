@@ -82,8 +82,8 @@ def finalPathToFile(filename, finalPath, collectionOfDistance):
     return outFile.name
 
 filename = input("Enter the name of file: ")
-#directory = "test_cases"
-#filename = os.path.join(directory, filename)
+directory = "test_cases"
+filename = os.path.join(directory, filename)
 listOfPoints = FileRead(filename)
 dictionary = KM(listOfPoints)
 c1 = dictionary['dict2']['center1']
