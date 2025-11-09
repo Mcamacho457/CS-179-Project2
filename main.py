@@ -215,7 +215,12 @@ def writeToDistanceFileNN(collectionOfDistanceNN):
 
 best_cluster, best_distance = printSumNN(listOfPoints, landing1, landing2, landing3, landing4)
 
+clusters = [t[0] for t in best_cluster]
+centers = [t[2] for t in best_cluster]
 
+clusterPaths = []
+
+saveClusterRoutesImg(listOfPoints, clusters, centers, clusterPaths, filename)
 # While the function input is awaiting input from user print sum runs
 #input()
 # After input the loop condition is set to true so it stops
