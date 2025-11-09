@@ -2,7 +2,7 @@ import math
 import numpy as np
 from DistanceMatrix import dist_matrix 
 from euclideanDistance import Euclidean
-from route import saveRouteImg
+from route import saveClusterRoutesImg
 #from distancePlot import analyzeDistance
 from ClassicNN import ClassicNN
 from ModifiedNN import ModifiedNN
@@ -89,6 +89,21 @@ dictionary = KM(listOfPoints)
 c1 = dictionary['dict2']['center1']
 cr1 = dictionary['dict2']['cluster1']
 
+k = int(input("Please Select your choice 1 to 4:"))
+kdict = dictionary[f'dict{k}']
+
+# get cluster and centers for k chosen
+clusters = [kdict[f'cluster{i}'] for i in range(1, k+1)]
+centers = [kdict[f'center{i}'] for i in range(1, k+1)]
+
+# dont have paths yet so nothing here
+clusterPaths = []
+
+saveClusterRoutesImg(listOfPoints, clusters, centers, clusterPaths, filename)
+
+# for i in range(len(cr1)):
+#     print (cr1[i].newNumber)
+
 dm = dist_matrix(cr1)
 # Random NN Functions
 
@@ -132,7 +147,7 @@ def printSumNN(sumOfDistance, listOfPoints, dist_mat):
             print(f"          {sumOfDistance}")
         prev = sumOfDistance  
        
-    saveRouteImg(listOfPoints, finalPathNN, prev, filename)
+    #saveRouteImg(listOfPoints, finalPathNN, prev, filename)
 
 
 def writeToDistanceFileNN(collectionOfDistanceNN):
