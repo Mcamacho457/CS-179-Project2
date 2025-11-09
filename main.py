@@ -84,8 +84,8 @@ def finalPathToFile(filename, finalPath, collectionOfDistance):
 filename = input("Enter the name of file: ")
 listOfPoints = FileRead(filename)
 dictionary = KM(listOfPoints)
-c1 = dictionary['dict4']['center1']
-cr1 = dictionary['dict4']['cluster1']
+c1 = dictionary['dict1']['center1']
+cr1 = dictionary['dict1']['cluster1']
 
 for i in range(len(cr1)):
     print (cr1[i].newNumber)
