@@ -87,9 +87,6 @@ dictionary = KM(listOfPoints)
 c1 = dictionary['dict4']['center1']
 cr1 = dictionary['dict4']['cluster1']
 
-for i in range(len(cr1)):
-    print (cr1[i].newNumber)
-
 dm = dist_matrix(cr1)
 # Random NN Functions
 
