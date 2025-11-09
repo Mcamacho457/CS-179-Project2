@@ -12,6 +12,7 @@ import time
 import os
 from kMeansAlg import KM
 from print import output
+from datetime import datetime, timedelta
 
 # This function reads in the input file which has coordinates for each location
 def FileRead(filename):
@@ -77,7 +78,7 @@ def writeToDistanceFile(collectionOfDistance):
 
 # This writes the solution for which nodes to visit e.g. "1 2 10 3 1"
 def finalPathToFile(filename, finalPath, collectionOfDistance):
-    with open(f"{filename.split('/')[-1]}_SOLUTION_{int(round(collectionOfDistance[-1][0]))}.txt", "w") as outFile:
+    with open(f"{filename.split('/')[-1]}_SOLUTION_{int(round(collectionOfDistance))}.txt", "w") as outFile:
         for i in finalPath:
             outFile.write(f"{i.number} \n")
     return outFile.name
@@ -154,19 +155,31 @@ def printSumNN(listOfPoints, landing1, landing2, landing3, landing4):
     landing2_distances = []
     landing3_distances = []
     landing4_distances = []
-    print(f"There are {len(listOfPoints)} nodes:")
+
+    now = datetime.now() #link for refrences https://www.programiz.com/python-programming/datetime/current-time
+    now = now + timedelta(minutes = 5)
+    if now.hour > 12:
+        now = now - timedelta(hours=12)
+        current = now.strftime("%H:%M")
+        print(f"There are {len(listOfPoints)} nodes: Solutions will be available by {current}pm")
+    elif now.hour < 12:
+         current = now.strftime("%H:%M")
+         print(f"There are {len(listOfPoints)} nodes: Solutions will be available by {current}am")
+    else:
+         current = now.strftime("%H:%M")
+         print(f"There are {len(listOfPoints)} nodes: Solutions will be available by {current}pm")
     for i, j, k in landing1:
         finalDistance, time_so_far = output(i, j)
         landing1_distances.append((finalDistance, time_so_far))
     
-    print(f"1) If you use {len(landing1)} drone (s), the total route will be {sum(landing1_distances[0])} meters")
+    print(f"1) If you use {len(landing1)} drone (s), the total route will be {sum(d[0] for d in landing1_distances)} meters")
     print(f"    i. Landing pad 1 should be at [{int(landing1[0][2].x)},{int(landing1[0][2].y)}], serving {len(landing1[0][0])} locations, route is {landing1_distances[0][0]} meters")
 
     for i, j, k in landing2:
         finalDistance, time_so_far = output(i, j)
         landing2_distances.append((finalDistance, time_so_far))
     
-    print(f"2) If you use {len(landing2)} drone (s), the total route will be {sum(landing2_distances[0])} meters")
+    print(f"2) If you use {len(landing2)} drone (s), the total route will be {sum(d[0] for d in landing2_distances)} meters")
     print(f"    i. Landing pad 1 should be at [{int(landing2[0][2].x)},{int(landing2[0][2].y)}], serving {len(landing2[0][0])} locations, route is {landing2_distances[0][0]} meters")
     print(f"    ii. Landing pad 2 should be at [{int(landing2[1][2].x)},{int(landing2[1][2].y)}], serving {len(landing2[1][0])} locations, route is {landing2_distances[1][0]} meters")
 
@@ -174,7 +187,7 @@ def printSumNN(listOfPoints, landing1, landing2, landing3, landing4):
         finalDistance, time_so_far = output(i, j)
         landing3_distances.append((finalDistance, time_so_far))
     
-    print(f"3) If you use {len(landing3)} drone (s), the total route will be {sum(landing3_distances[0])} meters")
+    print(f"3) If you use {len(landing3)} drone (s), the total route will be {sum(d[0] for d in landing3_distances)} meters")
     print(f"    i. Landing pad 1 should be at [{int(landing3[0][2].x)},{int(landing3[0][2].y)}], serving {len(landing3[0][0])} locations, route is {landing3_distances[0][0]} meters")
     print(f"    ii. Landing pad 2 should be at [{int(landing3[1][2].x)},{int(landing3[1][2].y)}], serving {len(landing3[1][0])} locations, route is {landing3_distances[1][0]} meters")
     print(f"    iii. Landing pad 3 should be at [{int(landing3[2][2].x)},{int(landing3[2][2].y)}], serving {len(landing3[2][0])} locations, route is {landing3_distances[2][0]} meters")
@@ -184,7 +197,7 @@ def printSumNN(listOfPoints, landing1, landing2, landing3, landing4):
         finalDistance, time_so_far = output(i, j)
         landing4_distances.append((finalDistance, time_so_far))
     
-    print(f"4) If you use {len(landing4)} drone (s), the total route will be {sum(landing4_distances[0])} meters")
+    print(f"4) If you use {len(landing4)} drone (s), the total route will be {sum(d[0] for d in landing4_distances)} meters")
     print(f"    i. Landing pad 1 should be at [{int(landing4[0][2].x)},{int(landing4[0][2].y)}], serving {len(landing4[0][0])} locations, route is {landing4_distances[0][0]} meters")
     print(f"    ii. Landing pad 2 should be at [{int(landing4[1][2].x)},{int(landing4[1][2].y)}], serving {len(landing4[1][0])} locations, route is {landing4_distances[1][0]} meters")
     print(f"    iii. Landing pad 3 should be at [{int(landing4[2][2].x)},{int(landing4[2][2].y)}], serving {len(landing4[2][0])} locations, route is {landing4_distances[2][0]} meters")
@@ -232,9 +245,10 @@ saveClusterRoutesImg(listOfPoints, clusters, centers, clusterPaths, filename)
 filename = os.path.splitext(os.path.basename(filename))[0]
 # this writes the solution for which nodes to visit e.g. "1 2 10 3 1"
 
-#outFile = finalPathToFile(filename, finalPathNN, collectionOfDistanceNN)
+
 
 for i in range(len(best_cluster)):
+    outFile = finalPathToFile(filename, best_cluster[i][0], best_distance[i][0])
     print(f"Writting {filename}_{i + 1}_SOLUTION_{best_distance[i][0]}.txt")
 
 writeToDistanceFileNN(collectionOfDistanceNN)
