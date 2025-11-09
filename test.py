@@ -76,7 +76,7 @@ class TestFileRead(unittest.TestCase):
 # This tests if an output file was made correctly 
 class TestOutputFile(unittest.TestCase):
     def test_MakeOutputFile(self):
-        filename = "file"
+        filename = "test_cases/file"
         one = Location(1, 0, 1.0, 2.0)
         two = Location(2, 0, 3.0, 4.0) 
         three = Location(3, 0, 5.0, 6.0)
@@ -90,7 +90,7 @@ class TestOutputFile(unittest.TestCase):
         outFileName = finalPathToFile(filename, array, collectionOfDistance)
         created = False
         print(outFileName)
-        if (outFileName == f"file_SOLUTION_{int(round(ts))}.txt"):
+        if (outFileName == f"{filename.split('/')[-1]}_SOLUTION_{int(round(collectionOfDistance[-1][0]))}.txt"):
             created = True
         self.assertEqual(created, True, "The output file is not made correctly")
     
