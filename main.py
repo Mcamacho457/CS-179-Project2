@@ -76,7 +76,7 @@ def writeToDistanceFile(collectionOfDistance):
 
 # This writes the solution for which nodes to visit e.g. "1 2 10 3 1"
 def finalPathToFile(filename, finalPath, collectionOfDistance):
-    with open(f"{filename}_SOLUTION_{int(round(collectionOfDistance[-1][0]))}.txt", "w") as outFile:
+    with open(f"{filename.split('/')[-1]}_SOLUTION_{int(round(collectionOfDistance[-1][0]))}.txt", "w") as outFile:
         for i in finalPath:
             outFile.write(f"{i.number} \n")
     return outFile.name
