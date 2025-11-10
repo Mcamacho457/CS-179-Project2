@@ -232,6 +232,10 @@ clusters = [t[0] for t in best_cluster]
 centers = [t[2] for t in best_cluster]
 
 clusterPaths = []
+for clusterPoints, _, _ in best_cluster:
+    dm = dist_matrix(clusterPoints)
+    sumOfDistance, path, _, _ = ClassicNN(clusterPoints, dm)
+    clusterPaths.append(path)
 
 saveClusterRoutesImg(listOfPoints, clusters, centers, clusterPaths, filename)
 # While the function input is awaiting input from user print sum runs
