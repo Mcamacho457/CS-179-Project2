@@ -34,7 +34,8 @@ def ClassicNN(pts_array, dist_matrix):
         # add current node to visited set and path, and remove the current node index from the not visited set (essentially swap the indices)
         curr_node_idx = curr_node.newNumber - 1
         idx_visited.add(curr_node_idx)
-        idx_not_visited.remove(curr_node_idx)
+        if (curr_node_idx in idx_not_visited):   
+            idx_not_visited.remove(curr_node_idx)
         path.append(curr_node)
         
         closest_node_idx = -1
