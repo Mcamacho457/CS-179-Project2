@@ -11,6 +11,7 @@ def output(listOfPoints, dist_mat):
     global collectionOfDistanceNN, finalPathNN, prev, count
     # If it is the first iteration classic nn should be performed
     prev = 0
+    time_So_Far = 0
     sumOfDistance, path, _, _ = ClassicNN(listOfPoints, dist_mat)
     # Just like random search if the new distance is not the same as the old distance we found a new route
     if prev != sumOfDistance:
