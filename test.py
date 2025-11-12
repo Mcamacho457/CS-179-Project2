@@ -10,6 +10,9 @@ from main import finalPathToFile
 from DistanceMatrix import dist_matrix
 from ClassicNN import ClassicNN
 from ModifiedNN import ModifiedNN
+from kMeansAlg import KM
+from kMeansAlg import newCenter
+from route import saveClusterRoutesImg
 
 class TestEuclidean(unittest.TestCase):
     def test_euclideanCalc(self):
@@ -147,6 +150,104 @@ class TestModifiedNN(unittest.TestCase):
         # This should always be true
         if (modnnPath != cnnPath):
             self.assertless(msumOfDistance, csumOfDistance, "Modified NN was not able to find a new path that is shorter than Classic NN")
+
+# This tests the KMeans algorithm
+class TestKMeans(unittest.TestCase):
+    def test_1K_1Cluster_KMeans(self):
+        filename = "test_cases/1cluster_test1_2000.txt"
+        listOfPoints = FileRead(filename)
+        dictionary = KM(listOfPoints)
+
+        landing1_center1 = [dictionary['dict1']['center1']]
+        landing1_cluster1 = [dictionary['dict1']['cluster1']]
+
+        num_pts = len(landing1_cluster1[0])
+
+        clusterPaths = []
+
+        # use saveClusterRoutesImg to visualize the results
+        saveClusterRoutesImg(listOfPoints, landing1_cluster1, landing1_center1, clusterPaths, "1cluster_test1_2000.txt")
+
+        self.assertEqual(num_pts, 2000, "The one cluster does not have all points, when it should.")
+
+    def test_1K_2Clusters_KMeans(self):
+        filename = "test_cases/1cluster_test2_2000.txt"
+        listOfPoints = FileRead(filename)
+        dictionary = KM(listOfPoints)
+
+        landing1_center1 = [dictionary['dict1']['center1']]
+        landing1_cluster1 = [dictionary['dict1']['cluster1']]
+
+        num_pts = len(landing1_cluster1[0])
+
+        clusterPaths = []
+
+        # use saveClusterRoutesImg to visualize the results
+        saveClusterRoutesImg(listOfPoints, landing1_cluster1, landing1_center1, clusterPaths, "1cluster_test2_2000.txt")
+
+        self.assertEqual(num_pts, 2000, "The one cluster does not have all points, when it should.")
+    
+    def test_2K_1Clusters_KMeans(self):
+        filename = "test_cases/1cluster_test1_2000.txt"
+        listOfPoints = FileRead(filename)
+        dictionary = KM(listOfPoints)
+
+        clusters = []
+        cluster_centers = []
+
+        landing2_center1 = dictionary['dict2']['center1']
+        landing2_cluster1 = dictionary['dict2']['cluster1']
+
+        landing2_center2 = dictionary['dict2']['center2']
+        landing2_cluster2 = dictionary['dict2']['cluster2']
+
+        clusters.append(landing2_cluster1)
+        clusters.append(landing2_cluster2)
+
+        cluster_centers.append(landing2_center1)
+        cluster_centers.append(landing2_center2)
+
+        clust1_num_pts = len(landing2_cluster1)
+        clust2_num_pts = len(landing2_cluster2)
+
+        clusterPaths = []
+
+        # use saveClusterRoutesImg to visualize the results
+        saveClusterRoutesImg(listOfPoints, clusters, cluster_centers, clusterPaths, "2cluster_test1_2000.txt")
+
+        self.assertAlmostEqual(clust1_num_pts, 1000, None, "The 1st cluster does not have half of the points.", 100)
+        self.assertAlmostEqual(clust2_num_pts, 1000, None, "The 2nd cluster does not have half of the points.", 100)
+
+    def test_2K_2Clusters_KMeans(self):
+        filename = "test_cases/1cluster_test2_2000.txt"
+        listOfPoints = FileRead(filename)
+        dictionary = KM(listOfPoints)
+
+        clusters = []
+        cluster_centers = []
+
+        landing2_center1 = dictionary['dict2']['center1']
+        landing2_cluster1 = dictionary['dict2']['cluster1']
+
+        landing2_center2 = dictionary['dict2']['center2']
+        landing2_cluster2 = dictionary['dict2']['cluster2']
+
+        clusters.append(landing2_cluster1)
+        clusters.append(landing2_cluster2)
+
+        cluster_centers.append(landing2_center1)
+        cluster_centers.append(landing2_center2)
+
+        clust1_num_pts = len(landing2_cluster1)
+        clust2_num_pts = len(landing2_cluster2)
+
+        clusterPaths = []
+
+        # use saveClusterRoutesImg to visualize the results
+        saveClusterRoutesImg(listOfPoints, clusters, cluster_centers, clusterPaths, "2cluster_test2_2000.txt")
+
+        self.assertAlmostEqual(clust1_num_pts, 1000, None, "The 1st cluster does not have half of the points.", 10)
+        self.assertAlmostEqual(clust2_num_pts, 1000, None, "The 2nd cluster does not have half of the points.", 10)
 
 if __name__ == "__main__":
     unittest.main()

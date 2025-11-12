@@ -1,6 +1,6 @@
 from ClassicNN import ClassicNN
 from ModifiedNN import ModifiedNN
-
+from euclideanDistance import Euclidean
 collectionOfDistanceNN = []
 finalPathNN = []
 first_iter = True
@@ -18,7 +18,7 @@ def output(listOfPoints, dist_mat):
     # This gets the time it took to find a route
     # For jason when making distance over time graph
         time_So_Far = sumOfDistance / 100
-        #collectionOfDistanceNN.append((sumOfDistance, time_So_Far)) 
+        #collectionOfDistanceNN.append((sumOfDistance, time_So_Far))
         # For jason when making route graph and kenny for file output
         finalPathNN = path
         #print(f"          {sumOfDistance}")
@@ -34,7 +34,7 @@ def output(listOfPoints, dist_mat):
             #collectionOfDistanceNN.append((sumOfDistance, time_So_Far)) #for jason when making distance over time graph
             finalPathNN = path #for jason when making route graph
         prev = sumOfDistance
-        count += 1 
-    #print(f"          {sumOfDistance}")   
+        count += 1
+    #print(f"          {sumOfDistance}")  
     #saveRouteImg(listOfPoints, finalPathNN, prev, filename)
     return sumOfDistance, time_So_Far
