@@ -33,7 +33,7 @@ def ModifiedNN(pts_array, dist_matrix, path_to_beat, dist_to_beat):
         path.append(curr_node)
         
         closest_node_idx = -1
-        closest_node_dist = 7000
+        closest_node_dist = 20000
         # how do we get the closest node and 2nd closest node simultaneously?
         for idx, i in enumerate(idx_not_visited):
             # if the ith index is greater than the current index then we can access using the current index as the row
@@ -51,7 +51,7 @@ def ModifiedNN(pts_array, dist_matrix, path_to_beat, dist_to_beat):
                 print("Somehow we got to this part")
         
         closest_node_idx2 = -1
-        closest_node_dist2 = 7000
+        closest_node_dist2 = 20000
         for idx, j in enumerate(idx_not_visited):
             if (j != closest_node_idx):
                 if (j > curr_node_idx):
@@ -127,4 +127,4 @@ def ModifiedNN(pts_array, dist_matrix, path_to_beat, dist_to_beat):
     # if it is not we should return the old path and distance and try again 
     else: 
         return int(dist_to_beat), path_to_beat, sorted_idx_visited, sorted_idx_not_visited 
-    
+     

@@ -8,7 +8,7 @@ prev = 0
 count = 0
 
 def output(listOfPoints, dist_mat):
-    global collectionOfDistanceNN, finalPathNN, prev, count
+    global collectionOfDistanceNN, finalPathNN, prev
     # If it is the first iteration classic nn should be performed
     prev = 0
     time_So_Far = 0
@@ -22,9 +22,10 @@ def output(listOfPoints, dist_mat):
         # For jason when making route graph and kenny for file output
         finalPathNN = path
         #print(f"          {sumOfDistance}")
-        prev = sumOfDistance 
-        # While the user has not hit the entry key this loop will keep going
-    while count < 100:
+        prev = sumOfDistance
+    # While the user has not hit the entry key this loop will keep going 
+    count = 0
+    while count < 10:
         #code pauses a quarter of a second. Can change if needed to
         sumOfDistance, path, _, _ = ModifiedNN(listOfPoints, dist_mat, finalPathNN, dist_to_beat=sumOfDistance)
         # This is utilized the same
