@@ -39,7 +39,7 @@ def ClassicNN(pts_array, dist_matrix):
         path.append(curr_node)
         
         closest_node_idx = -1
-        closest_node_dist = 7000
+        closest_node_dist = 20000
         for idx, i in enumerate(idx_not_visited):
             # if the ith index is greater than the current index then we can access using the current index as the row
             if (i > curr_node_idx):

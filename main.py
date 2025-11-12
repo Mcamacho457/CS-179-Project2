@@ -87,38 +87,220 @@ filename = input("Enter the name of file: ")
 directory = "test_cases"
 filename = os.path.join(directory, filename)
 listOfPoints = FileRead(filename)
-dictionary = KM(listOfPoints)
+olddictionary = KM(listOfPoints)
 
-landing1_center1 = dictionary['dict1']['center1']
-landing1_cluster1 = dictionary['dict1']['cluster1']
+oldlanding1_center1 = olddictionary['dict1']['center1']
+oldlanding1_cluster1 = olddictionary['dict1']['cluster1']
 
-landing2_center1 = dictionary['dict2']['center1']
-landing2_cluster1 = dictionary['dict2']['cluster1']
+oldlanding2_center1 = olddictionary['dict2']['center1']
+oldlanding2_cluster1 = olddictionary['dict2']['cluster1']
 
-landing2_center2 = dictionary['dict2']['center2']
-landing2_cluster2 = dictionary['dict2']['cluster2']
+oldlanding2_center2 = olddictionary['dict2']['center2']
+oldlanding2_cluster2 = olddictionary['dict2']['cluster2']
 
-landing3_center1 = dictionary['dict3']['center1']
-landing3_cluster1 = dictionary['dict3']['cluster1']
+oldlanding3_center1 = olddictionary['dict3']['center1']
+oldlanding3_cluster1 = olddictionary['dict3']['cluster1']
 
-landing3_center2 = dictionary['dict3']['center2']
-landing3_cluster2 = dictionary['dict3']['cluster2']
+oldlanding3_center2 = olddictionary['dict3']['center2']
+oldlanding3_cluster2 = olddictionary['dict3']['cluster2']
 
-landing3_center3 = dictionary['dict3']['center3']
-landing3_cluster3 = dictionary['dict3']['cluster3']
+oldlanding3_center3 = olddictionary['dict3']['center3']
+oldlanding3_cluster3 = olddictionary['dict3']['cluster3']
 
-landing4_center1 = dictionary['dict4']['center1']
-landing4_cluster1 = dictionary['dict4']['cluster1']
+oldlanding4_center1 = olddictionary['dict4']['center1']
+oldlanding4_cluster1 = olddictionary['dict4']['cluster1']
 
-landing4_center2 = dictionary['dict4']['center2']
-landing4_cluster2 = dictionary['dict4']['cluster2']
+oldlanding4_center2 = olddictionary['dict4']['center2']
+oldlanding4_cluster2 = olddictionary['dict4']['cluster2']
 
-landing4_center3 = dictionary['dict4']['center3']
-landing4_cluster3 = dictionary['dict4']['cluster3']
+oldlanding4_center3 = olddictionary['dict4']['center3']
+oldlanding4_cluster3 = olddictionary['dict4']['cluster3']
 
-landing4_center4 = dictionary['dict4']['center4']
-landing4_cluster4 = dictionary['dict4']['cluster4']
+oldlanding4_center4 = olddictionary['dict4']['center4']
+oldlanding4_cluster4 = olddictionary['dict4']['cluster4']
 
+def error(x1, y1, x2, y2):
+    e = abs(math.pow((x2 - x1), 2) + math.pow((y2 - y1), 2))
+    return e
+
+total_ses = []
+clusters = []
+centers = []
+
+for i in range(10):
+    newdictionary = KM(listOfPoints)
+    landing1_center1 = newdictionary['dict1']['center1']
+    landing1_cluster1 = newdictionary['dict1']['cluster1']
+    
+    totalse = 0.0
+    for i in range(len(listOfPoints)):
+        se = error(landing1_cluster1[i].x, landing1_cluster1[i].y, landing1_center1.x, landing1_center1.y)
+        totalse += se
+    total_ses.append(totalse)
+    clusters.append(landing1_cluster1)
+    centers.append(landing1_center1)
+
+best_idx11 = total_ses.index(min(total_ses))
+best_cluster11 = clusters[best_idx11]
+best_center11 = centers[best_idx11]
+landing1_center1 = best_center11
+landing1_cluster1 = best_cluster11
+
+total_ses = []
+clusters1 = []
+centers1 = []
+clusters2 = []
+centers2 = []
+
+for i in range(10):
+    newdictionary = KM(listOfPoints)
+    landing2_center1 = newdictionary['dict2']['center1']
+    landing2_cluster1 = newdictionary['dict2']['cluster1']
+    landing2_center2 = newdictionary['dict2']['center2']
+    landing2_cluster2 = newdictionary['dict2']['cluster2']
+
+    totalse = 0.0
+    for i in range(len(landing2_cluster1)):
+        se = error(landing2_cluster1[i].x, landing2_cluster1[i].y, landing2_center1.x, landing2_center1.y)
+        totalse += se
+
+    for i in range(len(landing2_cluster2)):
+        se = error(landing2_cluster2[i].x, landing2_cluster2[i].y, landing2_center2.x, landing2_center2.y)
+        totalse += se
+
+    total_ses.append(totalse)
+    clusters1.append(landing2_cluster1)
+    centers1.append(landing2_center1)
+    clusters2.append(landing2_cluster2)
+    centers2.append(landing2_center2)
+    
+best_idx2 = total_ses.index(min(total_ses))
+best_cluster1 = clusters1[best_idx2]
+best_center1 = centers1[best_idx2]
+best_cluster2 = clusters2[best_idx2]
+best_center2 = centers2[best_idx2]
+landing2_center1 = best_center1
+landing2_cluster1 = best_cluster1
+landing2_center2 = best_center2
+landing2_cluster2 = best_cluster2
+
+total_ses = []
+clusters1 = []
+centers1 = []
+clusters2 = []
+centers2 = []
+clusters3 = []
+centers3 = []
+
+for i in range(10):
+    newdictionary = KM(listOfPoints)
+    landing3_center1 = newdictionary['dict3']['center1']
+    landing3_cluster1 = newdictionary['dict3']['cluster1']
+    landing3_center2 = newdictionary['dict3']['center2']
+    landing3_cluster2 = newdictionary['dict3']['cluster2']
+    landing3_center3 = newdictionary['dict3']['center3']
+    landing3_cluster3 = newdictionary['dict3']['cluster3']
+
+    totalse = 0.0
+    for i in range(len(landing3_cluster1)):
+        se = error(landing3_cluster1[i].x, landing3_cluster1[i].y, landing3_center1.x, landing3_center1.y)
+        totalse += se
+
+    for i in range(len(landing3_cluster2)):
+        se = error(landing3_cluster2[i].x, landing3_cluster2[i].y, landing3_center2.x, landing3_center2.y)
+        totalse += se
+    
+    for i in range(len(landing3_cluster3)):
+        se = error(landing3_cluster3[i].x, landing3_cluster3[i].y, landing3_center3.x, landing3_center3.y)
+        totalse += se
+
+    total_ses.append(totalse)
+    clusters1.append(landing3_cluster1)
+    centers1.append(landing3_center1)
+    clusters2.append(landing3_cluster2)
+    centers2.append(landing3_center2)
+    clusters3.append(landing3_cluster3)
+    centers3.append(landing3_center3)
+    
+best_idx3 = total_ses.index(min(total_ses))
+best_cluster1 = clusters1[best_idx3]
+best_center1 = centers1[best_idx3]
+best_cluster2 = clusters2[best_idx3]
+best_center2 = centers2[best_idx3]
+best_cluster3 = clusters3[best_idx3]
+best_center3 = centers3[best_idx3]
+landing3_center1 = best_center1
+landing3_cluster1 = best_cluster1
+landing3_center2 = best_center2
+landing3_cluster2 = best_cluster2
+landing3_center3 = best_center3
+landing3_cluster3 = best_cluster3
+
+total_ses = []
+clusters1 = []
+centers1 = []
+clusters2 = []
+centers2 = []
+clusters3 = []
+centers3 = []
+clusters4 = []
+centers4 = []
+
+for i in range(10):
+    newdictionary = KM(listOfPoints)
+    landing4_center1 = newdictionary['dict4']['center1']
+    landing4_cluster1 = newdictionary['dict4']['cluster1']
+    landing4_center2 = newdictionary['dict4']['center2']
+    landing4_cluster2 = newdictionary['dict4']['cluster2']
+    landing4_center3 = newdictionary['dict4']['center3']
+    landing4_cluster3 = newdictionary['dict4']['cluster3']
+    landing4_center4 = newdictionary['dict4']['center4']
+    landing4_cluster4 = newdictionary['dict4']['cluster4']
+
+    totalse = 0.0
+    for i in range(len(landing4_cluster1)):
+        se = error(landing4_cluster1[i].x, landing4_cluster1[i].y, landing4_center1.x, landing4_center1.y)
+        totalse += se
+
+    for i in range(len(landing4_cluster2)):
+        se = error(landing4_cluster2[i].x, landing4_cluster2[i].y, landing4_center2.x, landing4_center2.y)
+        totalse += se
+    
+    for i in range(len(landing4_cluster3)):
+        se = error(landing4_cluster3[i].x, landing4_cluster3[i].y, landing4_center3.x, landing4_center3.y)
+        totalse += se
+    
+    for i in range(len(landing4_cluster4)):
+        se = error(landing4_cluster4[i].x, landing4_cluster4[i].y, landing4_center4.x, landing4_center4.y)
+        totalse += se
+
+    total_ses.append(totalse)
+    clusters1.append(landing4_cluster1)
+    centers1.append(landing4_center1)
+    clusters2.append(landing4_cluster2)
+    centers2.append(landing4_center2)
+    clusters3.append(landing4_cluster3)
+    centers3.append(landing4_center3)
+    clusters4.append(landing4_cluster4)
+    centers4.append(landing4_center4)
+    
+best_idx4 = total_ses.index(min(total_ses))
+best_cluster1 = clusters1[best_idx4]
+best_center1 = centers1[best_idx4]
+best_cluster2 = clusters2[best_idx4]
+best_center2 = centers2[best_idx4]
+best_cluster3 = clusters3[best_idx4]
+best_center3 = centers3[best_idx4]
+best_cluster4 = clusters4[best_idx4]
+best_center4 = centers4[best_idx4]
+landing4_center1 = best_center1
+landing4_cluster1 = best_cluster1
+landing4_center2 = best_center2
+landing4_cluster2 = best_cluster2
+landing4_center3 = best_center3
+landing4_cluster3 = best_cluster3
+landing4_center4 = best_center4
+landing4_cluster4 = best_cluster4
 
 #testdistance1, testpath1, _, _ = ClassicNN(landing2_cluster1, dist_matrix(landing2_cluster1))
 landing1 = []
