@@ -153,6 +153,7 @@ class TestModifiedNN(unittest.TestCase):
 
 # This tests the KMeans algorithm
 class TestKMeans(unittest.TestCase):
+    # test for k = 1 when all the data points are in one big cluster
     def test_1K_1Cluster_KMeans(self):
         filename = "test_cases/1cluster_test1_2000.txt"
         listOfPoints = FileRead(filename)
@@ -169,7 +170,8 @@ class TestKMeans(unittest.TestCase):
         saveClusterRoutesImg(listOfPoints, landing1_cluster1, landing1_center1, clusterPaths, "1cluster_test1_2000.txt")
 
         self.assertEqual(num_pts, 2000, "The one cluster does not have all points, when it should.")
-
+    # test for k = 1 when half the data points are in the bottom left corner and the other half are in the top right corner
+    # all data points should be assigned to one big cluster
     def test_1K_2Clusters_KMeans(self):
         filename = "test_cases/1cluster_test2_2000.txt"
         listOfPoints = FileRead(filename)
@@ -186,7 +188,25 @@ class TestKMeans(unittest.TestCase):
         saveClusterRoutesImg(listOfPoints, landing1_cluster1, landing1_center1, clusterPaths, "1cluster_test2_2000.txt")
 
         self.assertEqual(num_pts, 2000, "The one cluster does not have all points, when it should.")
-    
+    # test for k = 1 when we have 3 clusters. all data points should be assigned to one big cluster with the center being
+    # slightly in the top right corner
+    def test_1K_3Clusters_KMeans(self):
+        filename = "test_cases/3cluster_test3_3000.txt"
+        listOfPoints = FileRead(filename)
+        dictionary = KM(listOfPoints)
+
+        landing1_center1 = [dictionary['dict1']['center1']]
+        landing1_cluster1 = [dictionary['dict1']['cluster1']]
+
+        num_pts = len(landing1_cluster1[0])
+
+        clusterPaths = []
+
+        # use saveClusterRoutesImg to visualize the results
+        saveClusterRoutesImg(listOfPoints, landing1_cluster1, landing1_center1, clusterPaths, "1cluster_test3_3000.txt")
+
+        self.assertEqual(num_pts, 3000, "The one cluster does not have all points, when it should.")
+    # test for k = 2 when all the data points are in one big cluster, each cluster should have roughly half the points
     def test_2K_1Clusters_KMeans(self):
         filename = "test_cases/1cluster_test1_2000.txt"
         listOfPoints = FileRead(filename)
@@ -217,7 +237,7 @@ class TestKMeans(unittest.TestCase):
 
         self.assertAlmostEqual(clust1_num_pts, 1000, None, "The 1st cluster does not have half of the points.", 100)
         self.assertAlmostEqual(clust2_num_pts, 1000, None, "The 2nd cluster does not have half of the points.", 100)
-
+    # test for k = 2 when we have two separate clusters. each cluster should have roughly half the data points
     def test_2K_2Clusters_KMeans(self):
         filename = "test_cases/1cluster_test2_2000.txt"
         listOfPoints = FileRead(filename)
@@ -248,6 +268,203 @@ class TestKMeans(unittest.TestCase):
 
         self.assertAlmostEqual(clust1_num_pts, 1000, None, "The 1st cluster does not have half of the points.", 10)
         self.assertAlmostEqual(clust2_num_pts, 1000, None, "The 2nd cluster does not have half of the points.", 10)
+    # test for k = 2, when we have 3 separate clusters with 2 of them being close together
+    def test_2K_3Clusters_KMeans(self):
+        filename = "test_cases/3cluster_test3_3000.txt"
+        listOfPoints = FileRead(filename)
+        dictionary = KM(listOfPoints)
 
+        clusters = []
+        cluster_centers = []
+        cluster_len = []
+
+        landing2_center1 = dictionary['dict2']['center1']
+        landing2_cluster1 = dictionary['dict2']['cluster1']
+
+        landing2_center2 = dictionary['dict2']['center2']
+        landing2_cluster2 = dictionary['dict2']['cluster2']
+
+        clusters.append(landing2_cluster1)
+        clusters.append(landing2_cluster2)
+
+        cluster_centers.append(landing2_center1)
+        cluster_centers.append(landing2_center2)
+
+        clust1_num_pts = len(landing2_cluster1)
+        clust2_num_pts = len(landing2_cluster2)
+
+        cluster_len.append(clust1_num_pts)
+        cluster_len.append(clust2_num_pts)
+
+        clusterPaths = []
+
+        # use saveClusterRoutesImg to visualize the results
+        saveClusterRoutesImg(listOfPoints, clusters, cluster_centers, clusterPaths, "2cluster_test3_3000.txt")
+
+        for i in range(len(cluster_centers)):
+            center = cluster_centers[i]
+            num_pts = cluster_len[i]
+
+            if center.x <= 25.0:
+                self.assertAlmostEqual(num_pts, 1000, None, "The 1st cluster does not have 1/3rd of the points.", 10)
+            else:
+                self.assertAlmostEqual(num_pts, 2000, None, "The 2nd cluster does not have 2/3rd of the points.", 20)
+    #
+    def test_3K_1Cluster_KMeans(self):
+        filename = "test_cases/1cluster_test1_2000.txt"
+        listOfPoints = FileRead(filename)
+        dictionary = KM(listOfPoints)
+
+        clusters = []
+        cluster_centers = []
+
+        landing3_center1 = dictionary['dict3']['center1']
+        landing3_cluster1 = dictionary['dict3']['cluster1']
+
+        landing3_center2 = dictionary['dict3']['center2']
+        landing3_cluster2 = dictionary['dict3']['cluster2']
+
+        landing3_center3 = dictionary['dict3']['center3']
+        landing3_cluster3 = dictionary['dict3']['cluster3']
+
+        num_pts1 = len(landing3_cluster1)
+        num_pts2 = len(landing3_cluster2)
+        num_pts3 = len(landing3_cluster3)
+
+        clusters.append(landing3_cluster1)
+        clusters.append(landing3_cluster2)
+        clusters.append(landing3_cluster3)
+
+        cluster_centers.append(landing3_center1)
+        cluster_centers.append(landing3_center2)
+        cluster_centers.append(landing3_center3)
+
+        clusterPaths = []
+
+        # use saveClusterRoutesImg to visualize the results
+        saveClusterRoutesImg(listOfPoints, clusters, cluster_centers, clusterPaths, "3cluster_test1_2000.txt")
+
+        self.assertAlmostEqual(num_pts1, 667, None, "The 1st cluster does not have 1/3rd of the points.", 100)
+        self.assertAlmostEqual(num_pts2, 667, None, "The 2nd cluster does not have 1/3rd of the points.", 100)
+        self.assertAlmostEqual(num_pts3, 667, None, "The 3rd cluster does not have 1/3rd of the points.", 100)
+    # test for k = 3, when we have 2 clusters
+    def test_3K_2Clusters_KMeans(self):
+        filename = "test_cases/1cluster_test2_2000.txt"
+        listOfPoints = FileRead(filename)
+        dictionary = KM(listOfPoints)
+
+        clusters = []
+        cluster_centers = []
+        cluster_len = []
+
+        landing3_center1 = dictionary['dict3']['center1']
+        landing3_cluster1 = dictionary['dict3']['cluster1']
+
+        landing3_center2 = dictionary['dict3']['center2']
+        landing3_cluster2 = dictionary['dict3']['cluster2']
+
+        landing3_center3 = dictionary['dict3']['center3']
+        landing3_cluster3 = dictionary['dict3']['cluster3']
+
+        num_pts1 = len(landing3_cluster1)
+        num_pts2 = len(landing3_cluster2)
+        num_pts3 = len(landing3_cluster3)
+        
+        clusters.append(landing3_cluster1)
+        clusters.append(landing3_cluster2)
+        clusters.append(landing3_cluster3)
+
+        cluster_centers.append(landing3_center1)
+        cluster_centers.append(landing3_center2)
+        cluster_centers.append(landing3_center3)
+
+        cluster_len.append(num_pts1)
+        cluster_len.append(num_pts2)
+        cluster_len.append(num_pts3)
+
+        clusterPaths = []
+
+        # use saveClusterRoutesImg to visualize the results
+        saveClusterRoutesImg(listOfPoints, clusters, cluster_centers, clusterPaths, "3cluster_test2_2000.txt")
+
+        # these tests run if the bottom left corner is the cluster that is split into two since k = 3 now
+        if (landing3_center1.x < 25.0) and (landing3_center2.x < 25.0):
+            self.assertAlmostEqual(num_pts1, 500, None, "The 1st cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts2, 500, None, "The 2nd cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts3, 1000, None, "The 3rd cluster does not have 1/2 of the points.", 100)
+        elif (landing3_center1.x < 25.0) and (landing3_center3.x < 25.0):
+            self.assertAlmostEqual(num_pts1, 500, None, "The 1st cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts3, 500, None, "The 3rd cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts2, 1000, None, "The 2nd cluster does not have 1/2 of the points.", 100)
+        elif (landing3_center2.x < 25.0) and (landing3_center3.x < 25.0):
+            self.assertAlmostEqual(num_pts2, 500, None, "The 3rd cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts3, 500, None, "The 3rd cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts1, 1000, None, "The 3rd cluster does not have 1/2 of the points.", 100)
+        # these tests run if the top right corner is the cluster that is split into two since k = 3 now
+        elif (landing3_center1.x >= 25.0) and (landing3_center2.x >= 25.0):
+            self.assertAlmostEqual(num_pts1, 500, None, "The 1st cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts2, 500, None, "The 2nd cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts3, 1000, None, "The 3rd cluster does not have 1/2 of the points.", 100)
+        elif (landing3_center1.x >= 25.0) and (landing3_center3.x >= 25.0):
+            self.assertAlmostEqual(num_pts1, 500, None, "The 1st cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts3, 500, None, "The 3rd cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts2, 1000, None, "The 2nd cluster does not have 1/2 of the points.", 100)
+        elif (landing3_center2.x >= 25.0) and (landing3_center3.x >= 25.0):
+            self.assertAlmostEqual(num_pts2, 500, None, "The 3rd cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts3, 500, None, "The 3rd cluster does not have 1/4 of the points.", 100)
+            self.assertAlmostEqual(num_pts1, 1000, None, "The 3rd cluster does not have 1/2 of the points.", 100)
+
+    # test for k = 3, when we have 3 clusters
+    def test_3K_3Clusters_KMeans(self):
+        filename = "test_cases/3cluster_test3_3000.txt"
+        listOfPoints = FileRead(filename)
+        dictionary = KM(listOfPoints)
+
+        clusters = []
+        cluster_centers = []
+        cluster_len = []
+
+        landing3_center1 = dictionary['dict3']['center1']
+        landing3_cluster1 = dictionary['dict3']['cluster1']
+
+        landing3_center2 = dictionary['dict3']['center2']
+        landing3_cluster2 = dictionary['dict3']['cluster2']
+
+        landing3_center3 = dictionary['dict3']['center3']
+        landing3_cluster3 = dictionary['dict3']['cluster3']
+
+        num_pts1 = len(landing3_cluster1)
+        num_pts2 = len(landing3_cluster2)
+        num_pts3 = len(landing3_cluster3)
+
+        clusters.append(landing3_cluster1)
+        clusters.append(landing3_cluster2)
+        clusters.append(landing3_cluster3)
+
+        cluster_centers.append(landing3_center1)
+        cluster_centers.append(landing3_center2)
+        cluster_centers.append(landing3_center3)
+
+        cluster_len.append(num_pts1)
+        cluster_len.append(num_pts2)
+        cluster_len.append(num_pts3)
+
+        clusterPaths = []
+
+        # use saveClusterRoutesImg to visualize the results
+        saveClusterRoutesImg(listOfPoints, clusters, cluster_centers, clusterPaths, "3cluster_test3_3000.txt")
+
+        for i in range(len(clusters)):
+            cluster_center = cluster_centers[i]
+            num_pts = cluster_len[i]
+
+            # checks if this cluster center is for the cluster in the bottom left corner, if it is then this cluster
+            # should definitely have around 1000 data points
+            if cluster_center.x <= 25.0:
+                self.assertAlmostEqual(num_pts, 1000, None, "The first cluster does not have 1/3rd of the points, when it should.", 10)
+            # if the cluster center belongs to one of the top right clusters, then the amount of points can range from 1000 +- 260 points
+            # due to randomness of KMeans
+            else:
+                self.assertAlmostEqual(num_pts, 1000, None, "The first cluster does not have 1/3rd of the points, when it should.", 260)
 if __name__ == "__main__":
     unittest.main()
