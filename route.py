@@ -75,3 +75,32 @@ def saveClusterRoutesImg(listOfPoints, clusters, centers, clusterPaths, input_fi
 
     print(f"Image saved to: {full_path}")
     return full_path
+
+def saveObjectiveFunctionImg(all_landings_time):
+    ys = [int(i) for i in all_landings_time]
+    xs = [1, 2, 3, 4]
+
+    ys1 = [2, 4, 6, 8]
+
+    ys2 = []
+    for i in range(len(xs)):
+        if (i == 0):
+            ys2.append(all_landings_time[i] + 2)
+        elif (i == 1):
+            ys2.append(all_landings_time[i] + 4)
+        elif (i == 2):
+            ys2.append(all_landings_time[i] + 6)
+        else:
+            ys2.append(all_landings_time[i] + 8)
+
+    plt.figure(figsize=(10, 6))
+    plt.xticks(range(1,5))
+    plt.plot(xs, ys, label = "Path Time vs Number Of Drones", color = "blue")
+    plt.plot(xs, ys1, label = "Set Up Time vs Number Of Drones", color = "red")
+    plt.plot(xs, ys2, label = "Path Time + Set Up Time vs Number Of Drones", color = "green")
+    plt.xlabel("Number Of Drones")
+    plt.ylabel("Time (minutes)")
+    plt.title("Time vs Number Of Drones")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
