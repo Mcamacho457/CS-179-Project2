@@ -76,6 +76,8 @@ def saveClusterRoutesImg(listOfPoints, clusters, centers, clusterPaths, input_fi
     print(f"Image saved to: {full_path}")
     return full_path
 
+# comment out later just for testing 
+# also add a thing that explains what the graph says 
 def saveObjectiveFunctionImg(all_landings_time):
     ys = [int(i) for i in all_landings_time]
     xs = [1, 2, 3, 4]

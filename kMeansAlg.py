@@ -156,172 +156,174 @@ def KM(listOfPoints):
         # This is because if you follow the algorithm for part 2
         # It is exactly the same logic wise and code wise you just add another cluster
         # This is for 3 clusters
-        if (j == 2):
-            cluster21 = []
-            cluster22 = []
-            cluster23 = []
-            k3 = copy.deepcopy(listOfPoints)
-            center21 = random.choice(listOfPoints)
-            c21x = center21.x
-            c21y = center21.y
-            center22 = random.choice(listOfPoints)
-            while ((center21.x == center22.x) & (center21.y == center22.y)):
-                center22 = random.choice(listOfPoints)
-            c22x = center22.x
-            c22y = center22.y
-            center23 = random.choice(listOfPoints)
-            while (((center21.x == center23.x) & (center21.y == center23.y)) | ((center22.x == center23.x) & (center22.y == center23.y))):
-                center23 = random.choice(listOfPoints)
-            c23x = center23.x
-            c23y = center23.y
-            count = 0
-            oldCenter21 = Location(0, 0, 0, 0)
-            oldCenter22 = Location(0, 0, 0, 0)
-            oldCenter23 = Location(0, 0, 0, 0)
 
-            while True:
-
-                for i in range(len(listOfPoints)):
-                    d1 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c21x, c21y)
-                    d2 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c22x, c22y)
-                    d3 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c23x, c23y)
-                    if ((d1 <= d2) & (d1 <= d3)):
-                        cluster21.append(k3[i])
-                    elif ((d2 < d1) & (d2 < d3)):
-                        cluster22.append(k3[i])
-                    elif ((d3 < d1) & (d3 < d2)):
-                        cluster23.append(k3[i])
-
-                if ((count != 0) & (oldCenter21.x == center21.x) & (oldCenter21.y == center21.y) & (oldCenter22.x == center22.x) & (oldCenter22.y == center22.y) & (oldCenter23.x == center23.x) & (oldCenter23.y == center23.y)):
-                    
-                    cluster21.insert(0, center21)
-                    for k in range(len(cluster21)):
-                        cluster21[k].newNumber = k + 1
-                    cluster21.append(center21)
-
-                    cluster22.insert(0, center22)
-                    for k in range(len(cluster22)):
-                        cluster22[k].newNumber = k + 1 
-                    cluster22.append(center22)
-                    
-                    cluster23.insert(0, center23)
-                    for k in range(len(cluster23)):
-                        cluster23[k].newNumber = k + 1  
-                    cluster23.append(center23)
-
-                    clusterDict3 = {'cluster1' : cluster21, 'center1' : center21, 'cluster2' : cluster22, 'center2' : center22, 'cluster3' : cluster23, 'center3' : center23}
-                    break
-
-                oldCenter21 = center21
-                oldCenter22 = center22
-                oldCenter23 = center23
-                center21 = newCenter(cluster21)
-                center22 = newCenter(cluster22)
-                center23 = newCenter(cluster23)
+        if (len(listOfPoints) > 2):
+            if (j == 2):
+                cluster21 = []
+                cluster22 = []
+                cluster23 = []
+                k3 = copy.deepcopy(listOfPoints)
+                center21 = random.choice(listOfPoints)
                 c21x = center21.x
                 c21y = center21.y
+                center22 = random.choice(listOfPoints)
+                while ((center21.x == center22.x) & (center21.y == center22.y)):
+                    center22 = random.choice(listOfPoints)
                 c22x = center22.x
                 c22y = center22.y
+                center23 = random.choice(listOfPoints)
+                while (((center21.x == center23.x) & (center21.y == center23.y)) | ((center22.x == center23.x) & (center22.y == center23.y))):
+                    center23 = random.choice(listOfPoints)
                 c23x = center23.x
                 c23y = center23.y
-                count += 1
-                cluster21.clear()
-                cluster22.clear()
-                cluster23.clear()
+                count = 0
+                oldCenter21 = Location(0, 0, 0, 0)
+                oldCenter22 = Location(0, 0, 0, 0)
+                oldCenter23 = Location(0, 0, 0, 0)
 
-        # This is for cluster 4
-        if (j == 3):
-            cluster31 = []
-            cluster32 = []
-            cluster33 = []
-            cluster34 = []
-            k4 = copy.deepcopy(listOfPoints)
-            center31 = random.choice(listOfPoints)
-            c31x = center31.x
-            c31y = center31.y
-            center32 = random.choice(listOfPoints)
-            while ((center31.x == center32.x) & (center31.y == center32.y)):
-                center32 = random.choice(listOfPoints)
-            c32x = center32.x
-            c32y = center32.y
-            center33 = random.choice(listOfPoints)
-            while (((center31.x == center33.x) & (center31.y == center33.y)) | ((center32.x == center33.x) & (center32.y == center33.y))):
-                center33 = random.choice(listOfPoints)
-            c33x = center33.x
-            c33y = center33.y
-            center34 = random.choice(listOfPoints)
-            while (((center31.x == center34.x) & (center31.y == center34.y)) | ((center32.x == center34.x) & (center32.y == center34.y)) | ((center33.x == center34.x) & (center33.y == center34.y))):
-                center34 = random.choice(listOfPoints)
-            c34x = center34.x
-            c34y = center34.y
-            count = 0
-            oldCenter31 = Location(0, 0, 0, 0)
-            oldCenter32 = Location(0, 0, 0, 0)
-            oldCenter33 = Location(0, 0, 0, 0)
-            oldCenter34 = Location(0, 0, 0, 0)
+                while True:
 
-            while True:
+                    for i in range(len(listOfPoints)):
+                        d1 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c21x, c21y)
+                        d2 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c22x, c22y)
+                        d3 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c23x, c23y)
+                        if ((d1 <= d2) & (d1 <= d3)):
+                            cluster21.append(k3[i])
+                        elif ((d2 < d1) & (d2 < d3)):
+                            cluster22.append(k3[i])
+                        elif ((d3 < d1) & (d3 < d2)):
+                            cluster23.append(k3[i])
 
-                for i in range(len(listOfPoints)):
-                    d1 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c31x, c31y)
-                    d2 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c32x, c32y)
-                    d3 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c33x, c33y)
-                    d4 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c34x, c34y)
-                    if ((d1 <= d2) & (d1 <= d3) & (d1 <= d4)):
-                        cluster31.append(k4[i])
-                    elif((d2 < d1) & (d2 < d3) & (d2 < d4)):
-                        cluster32.append(k4[i])
-                    elif((d3 < d1) & (d3 < d2) & (d3 < d4)):
-                        cluster33.append(k4[i])
-                    elif((d4 < d1) & (d4 < d2) & (d4 < d3)):
-                        cluster34.append(k4[i])
-  
-                if ((count != 0) & (oldCenter31.x == center31.x) & (oldCenter31.y == center31.y) & (oldCenter32.x == center32.x) & (oldCenter32.y == center32.y) & (oldCenter33.x == center33.x) & (oldCenter33.y == center33.y) & (oldCenter34.x == center34.x) & (oldCenter34.y == center34.y)):
-                   
-                    cluster31.insert(0, center31)
-                    for k in range(len(cluster31)):
-                        cluster31[k].newNumber = k + 1
-                    cluster31.append(center31)
-
-                    cluster32.insert(0, center32)
-                    for k in range(len(cluster32)):
-                        cluster32[k].newNumber = k + 1 
-                    cluster32.append(center32)
+                    if ((count != 0) & (oldCenter21.x == center21.x) & (oldCenter21.y == center21.y) & (oldCenter22.x == center22.x) & (oldCenter22.y == center22.y) & (oldCenter23.x == center23.x) & (oldCenter23.y == center23.y)):
                     
-                    cluster33.insert(0, center33)
-                    for k in range(len(cluster33)):
-                        cluster33[k].newNumber = k + 1  
-                    cluster33.append(center33)
+                        cluster21.insert(0, center21)
+                        for k in range(len(cluster21)):
+                            cluster21[k].newNumber = k + 1
+                        cluster21.append(center21)
 
-                    cluster34.insert(0, center34)
-                    for k in range(len(cluster34)):
-                        cluster34[k].newNumber = k + 1  
-                    cluster34.append(center34)
+                        cluster22.insert(0, center22)
+                        for k in range(len(cluster22)):
+                            cluster22[k].newNumber = k + 1 
+                        cluster22.append(center22)
+                    
+                        cluster23.insert(0, center23)
+                        for k in range(len(cluster23)):
+                            cluster23[k].newNumber = k + 1  
+                        cluster23.append(center23)
 
-                    clusterDict4 = {'cluster1' : cluster31, 'center1' : center31, 'cluster2' : cluster32, 'center2' : center32, 'cluster3' : cluster33, 'center3' : center33, 'cluster4' : cluster34, 'center4' : center34}
-                    break
-            
-                oldCenter31 = center31
-                oldCenter32 = center32
-                oldCenter33 = center33
-                oldCenter34 = center34
-                center31 = newCenter(cluster31)
-                center32 = newCenter(cluster32)
-                center33 = newCenter(cluster33)
-                center34 = newCenter(cluster34)
+                        clusterDict3 = {'cluster1' : cluster21, 'center1' : center21, 'cluster2' : cluster22, 'center2' : center22, 'cluster3' : cluster23, 'center3' : center23}
+                        break
+
+                    oldCenter21 = center21
+                    oldCenter22 = center22
+                    oldCenter23 = center23
+                    center21 = newCenter(cluster21)
+                    center22 = newCenter(cluster22)
+                    center23 = newCenter(cluster23)
+                    c21x = center21.x
+                    c21y = center21.y
+                    c22x = center22.x
+                    c22y = center22.y
+                    c23x = center23.x
+                    c23y = center23.y
+                    count += 1
+                    cluster21.clear()
+                    cluster22.clear()
+                    cluster23.clear()
+
+            # This is for cluster 4
+            if (j == 3):
+                cluster31 = []
+                cluster32 = []
+                cluster33 = []
+                cluster34 = []
+                k4 = copy.deepcopy(listOfPoints)
+                center31 = random.choice(listOfPoints)
                 c31x = center31.x
                 c31y = center31.y
+                center32 = random.choice(listOfPoints)
+                while ((center31.x == center32.x) & (center31.y == center32.y)):
+                    center32 = random.choice(listOfPoints)
                 c32x = center32.x
                 c32y = center32.y
+                center33 = random.choice(listOfPoints)
+                while (((center31.x == center33.x) & (center31.y == center33.y)) | ((center32.x == center33.x) & (center32.y == center33.y))):
+                    center33 = random.choice(listOfPoints)
                 c33x = center33.x
                 c33y = center33.y
+                center34 = random.choice(listOfPoints)
+                while (((center31.x == center34.x) & (center31.y == center34.y)) | ((center32.x == center34.x) & (center32.y == center34.y)) | ((center33.x == center34.x) & (center33.y == center34.y))):
+                    center34 = random.choice(listOfPoints)
                 c34x = center34.x
                 c34y = center34.y
-                count += 1
-                cluster31.clear()
-                cluster32.clear()
-                cluster33.clear()
-                cluster34.clear()
+                count = 0
+                oldCenter31 = Location(0, 0, 0, 0)
+                oldCenter32 = Location(0, 0, 0, 0)
+                oldCenter33 = Location(0, 0, 0, 0)
+                oldCenter34 = Location(0, 0, 0, 0)
+
+                while True:
+
+                    for i in range(len(listOfPoints)):
+                        d1 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c31x, c31y)
+                        d2 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c32x, c32y)
+                        d3 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c33x, c33y)
+                        d4 = Euclidean(listOfPoints[i].x, listOfPoints[i].y, c34x, c34y)
+                        if ((d1 <= d2) & (d1 <= d3) & (d1 <= d4)):
+                            cluster31.append(k4[i])
+                        elif((d2 < d1) & (d2 < d3) & (d2 < d4)):
+                            cluster32.append(k4[i])
+                        elif((d3 < d1) & (d3 < d2) & (d3 < d4)):
+                            cluster33.append(k4[i])
+                        elif((d4 < d1) & (d4 < d2) & (d4 < d3)):
+                            cluster34.append(k4[i])
+  
+                    if ((count != 0) & (oldCenter31.x == center31.x) & (oldCenter31.y == center31.y) & (oldCenter32.x == center32.x) & (oldCenter32.y == center32.y) & (oldCenter33.x == center33.x) & (oldCenter33.y == center33.y) & (oldCenter34.x == center34.x) & (oldCenter34.y == center34.y)):
+                   
+                        cluster31.insert(0, center31)
+                        for k in range(len(cluster31)):
+                            cluster31[k].newNumber = k + 1
+                        cluster31.append(center31)
+
+                        cluster32.insert(0, center32)
+                        for k in range(len(cluster32)):
+                            cluster32[k].newNumber = k + 1 
+                        cluster32.append(center32)
+                    
+                        cluster33.insert(0, center33)
+                        for k in range(len(cluster33)):
+                            cluster33[k].newNumber = k + 1  
+                        cluster33.append(center33)
+
+                        cluster34.insert(0, center34)
+                        for k in range(len(cluster34)):
+                            cluster34[k].newNumber = k + 1  
+                        cluster34.append(center34)
+
+                        clusterDict4 = {'cluster1' : cluster31, 'center1' : center31, 'cluster2' : cluster32, 'center2' : center32, 'cluster3' : cluster33, 'center3' : center33, 'cluster4' : cluster34, 'center4' : center34}
+                        break
+            
+                    oldCenter31 = center31
+                    oldCenter32 = center32
+                    oldCenter33 = center33
+                    oldCenter34 = center34
+                    center31 = newCenter(cluster31)
+                    center32 = newCenter(cluster32)
+                    center33 = newCenter(cluster33)
+                    center34 = newCenter(cluster34)
+                    c31x = center31.x
+                    c31y = center31.y
+                    c32x = center32.x
+                    c32y = center32.y
+                    c33x = center33.x
+                    c33y = center33.y
+                    c34x = center34.x
+                    c34y = center34.y
+                    count += 1
+                    cluster31.clear()
+                    cluster32.clear()
+                    cluster33.clear()
+                    cluster34.clear()
 
     finalDict = {'dict1' : clusterDict1, 'dict2' : clusterDict2, 'dict3' : clusterDict3, 'dict4' : clusterDict4}
     return finalDict
