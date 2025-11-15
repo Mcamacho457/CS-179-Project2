@@ -85,10 +85,13 @@ def finalPathToFile(filename, finalPath, collectionOfDistance):
             outFile.write(f"{i.number} \n")
     return outFile.name
 
+# Prompts the user for file name input 
 filename = input("Enter the name of file: ")
 directory = "test_cases"
 filename = os.path.join(directory, filename)
 listOfPoints = FileRead(filename)
+
+# We create an old dictionary of clusters and centers using KM function
 olddictionary = KM(listOfPoints)
 
 oldlanding1_center1 = olddictionary['dict1']['center1']
@@ -100,6 +103,7 @@ oldlanding2_cluster1 = olddictionary['dict2']['cluster1']
 oldlanding2_center2 = olddictionary['dict2']['center2']
 oldlanding2_cluster2 = olddictionary['dict2']['cluster2']
 
+# If list of points is greater than 2 then we are able to use 3 and 4 clusters 
 if (len(listOfPoints) > 2):
     oldlanding3_center1 = olddictionary['dict3']['center1']
     oldlanding3_cluster1 = olddictionary['dict3']['cluster1']
@@ -110,6 +114,7 @@ if (len(listOfPoints) > 2):
     oldlanding3_center3 = olddictionary['dict3']['center3']
     oldlanding3_cluster3 = olddictionary['dict3']['cluster3']
 
+if (len(listOfPoints) > 3):
     oldlanding4_center1 = olddictionary['dict4']['center1']
     oldlanding4_cluster1 = olddictionary['dict4']['cluster1']
 
@@ -130,6 +135,7 @@ total_ses = []
 clusters = []
 centers = []
 
+# For 1 cluster we calculate the sse for ten runs of kmeans and choose the run with the lowest sse
 for i in range(10):
     newdictionary = KM(listOfPoints)
     landing1_center1 = newdictionary['dict1']['center1']
@@ -155,6 +161,7 @@ centers1 = []
 clusters2 = []
 centers2 = []
 
+# For two clusters we calculate the sse for ten runs of kmeans and choose the run with the lowest sse
 for i in range(10):
     newdictionary = KM(listOfPoints)
     landing2_center1 = newdictionary['dict2']['center1']
@@ -195,6 +202,7 @@ centers2 = []
 clusters3 = []
 centers3 = []
 
+# For if list of points is greater than 2 clusters we calculate the sse for ten runs of kmeans and choose the run with the lowest sse
 if (len(listOfPoints) > 2):
     for i in range(10):
         newdictionary = KM(listOfPoints)
@@ -250,61 +258,63 @@ if (len(listOfPoints) > 2):
     clusters4 = []
     centers4 = []
 
-    for i in range(10):
-        newdictionary = KM(listOfPoints)
-        landing4_center1 = newdictionary['dict4']['center1']
-        landing4_cluster1 = newdictionary['dict4']['cluster1']
-        landing4_center2 = newdictionary['dict4']['center2']
-        landing4_cluster2 = newdictionary['dict4']['cluster2']
-        landing4_center3 = newdictionary['dict4']['center3']
-        landing4_cluster3 = newdictionary['dict4']['cluster3']
-        landing4_center4 = newdictionary['dict4']['center4']
-        landing4_cluster4 = newdictionary['dict4']['cluster4']
+    # For if list of points is greater than 3 clusters we calculate the sse for ten runs of kmeans and choose the run with the lowest sse
+    if (len(listOfPoints) > 3):
+        for i in range(10):
+            newdictionary = KM(listOfPoints)
+            landing4_center1 = newdictionary['dict4']['center1']
+            landing4_cluster1 = newdictionary['dict4']['cluster1']
+            landing4_center2 = newdictionary['dict4']['center2']
+            landing4_cluster2 = newdictionary['dict4']['cluster2']
+            landing4_center3 = newdictionary['dict4']['center3']
+            landing4_cluster3 = newdictionary['dict4']['cluster3']
+            landing4_center4 = newdictionary['dict4']['center4']
+            landing4_cluster4 = newdictionary['dict4']['cluster4']
 
-        totalse = 0.0
-        for i in range(len(landing4_cluster1)):
-            se = error(landing4_cluster1[i].x, landing4_cluster1[i].y, landing4_center1.x, landing4_center1.y)
-            totalse += se
+            totalse = 0.0
+            for i in range(len(landing4_cluster1)):
+                se = error(landing4_cluster1[i].x, landing4_cluster1[i].y, landing4_center1.x, landing4_center1.y)
+                totalse += se
 
-        for i in range(len(landing4_cluster2)):
-            se = error(landing4_cluster2[i].x, landing4_cluster2[i].y, landing4_center2.x, landing4_center2.y)
-            totalse += se
+            for i in range(len(landing4_cluster2)):
+                se = error(landing4_cluster2[i].x, landing4_cluster2[i].y, landing4_center2.x, landing4_center2.y)
+                totalse += se
     
-        for i in range(len(landing4_cluster3)):
-            se = error(landing4_cluster3[i].x, landing4_cluster3[i].y, landing4_center3.x, landing4_center3.y)
-            totalse += se
+            for i in range(len(landing4_cluster3)):
+                se = error(landing4_cluster3[i].x, landing4_cluster3[i].y, landing4_center3.x, landing4_center3.y)
+                totalse += se
     
-        for i in range(len(landing4_cluster4)):
-            se = error(landing4_cluster4[i].x, landing4_cluster4[i].y, landing4_center4.x, landing4_center4.y)
-            totalse += se
+            for i in range(len(landing4_cluster4)):
+                se = error(landing4_cluster4[i].x, landing4_cluster4[i].y, landing4_center4.x, landing4_center4.y)
+                totalse += se
 
-        total_ses.append(totalse)
-        clusters1.append(landing4_cluster1)
-        centers1.append(landing4_center1)
-        clusters2.append(landing4_cluster2)
-        centers2.append(landing4_center2)
-        clusters3.append(landing4_cluster3)
-        centers3.append(landing4_center3)
-        clusters4.append(landing4_cluster4)
-        centers4.append(landing4_center4)
+            total_ses.append(totalse)
+            clusters1.append(landing4_cluster1)
+            centers1.append(landing4_center1)
+            clusters2.append(landing4_cluster2)
+            centers2.append(landing4_center2)
+            clusters3.append(landing4_cluster3)
+            centers3.append(landing4_center3)
+            clusters4.append(landing4_cluster4)
+            centers4.append(landing4_center4)
     
-    best_idx4 = total_ses.index(min(total_ses))
-    best_cluster1 = clusters1[best_idx4]
-    best_center1 = centers1[best_idx4]
-    best_cluster2 = clusters2[best_idx4]
-    best_center2 = centers2[best_idx4]
-    best_cluster3 = clusters3[best_idx4]
-    best_center3 = centers3[best_idx4]
-    best_cluster4 = clusters4[best_idx4]
-    best_center4 = centers4[best_idx4]
-    landing4_center1 = best_center1
-    landing4_cluster1 = best_cluster1
-    landing4_center2 = best_center2
-    landing4_cluster2 = best_cluster2
-    landing4_center3 = best_center3
-    landing4_cluster3 = best_cluster3
-    landing4_center4 = best_center4
-    landing4_cluster4 = best_cluster4
+        best_idx4 = total_ses.index(min(total_ses))
+        best_cluster1 = clusters1[best_idx4]
+        best_center1 = centers1[best_idx4]
+        best_cluster2 = clusters2[best_idx4]
+        best_center2 = centers2[best_idx4]
+        best_cluster3 = clusters3[best_idx4]
+        best_center3 = centers3[best_idx4]
+        best_cluster4 = clusters4[best_idx4]
+        best_center4 = centers4[best_idx4]
+        landing4_center1 = best_center1
+        landing4_cluster1 = best_cluster1
+        landing4_center2 = best_center2
+        landing4_cluster2 = best_cluster2
+        landing4_center3 = best_center3
+        landing4_cluster3 = best_cluster3
+        landing4_center4 = best_center4
+        landing4_cluster4 = best_cluster4
 
 #testdistance1, testpath1, _, _ = ClassicNN(landing2_cluster1, dist_matrix(landing2_cluster1))
 landing1 = []
@@ -322,6 +332,7 @@ if (len(listOfPoints) > 2):
     landing3.append((landing3_cluster2, dist_matrix(landing3_cluster2), landing3_center2))
     landing3.append((landing3_cluster3, dist_matrix(landing3_cluster3), landing3_center3))
 
+if (len(listOfPoints) > 3):
     landing4.append((landing4_cluster1, dist_matrix(landing4_cluster1), landing4_center1))
     landing4.append((landing4_cluster2, dist_matrix(landing4_cluster2), landing4_center2))
     landing4.append((landing4_cluster3, dist_matrix(landing4_cluster3), landing4_center3))
@@ -395,6 +406,7 @@ def printSumNN(listOfPoints, landing1, landing2, landing3, landing4):
         print(f"    ii. Landing pad 2 should be at [{int(landing3[1][2].x)},{int(landing3[1][2].y)}], serving {len(landing3[1][0])} locations, route is {landing3_distances[1][0]} meters")
         print(f"    iii. Landing pad 3 should be at [{int(landing3[2][2].x)},{int(landing3[2][2].y)}], serving {len(landing3[2][0])} locations, route is {landing3_distances[2][0]} meters")
 
+    if (len(listOfPoints) > 3):
         total_time = 0 
         prev = 0
         for i, j, k in landing4:
@@ -423,10 +435,14 @@ def printSumNN(listOfPoints, landing1, landing2, landing3, landing4):
     if (len(listOfPoints) > 2):
         if bestSolution == 3:
             return landing3, landing3_distances, all_landings_time
+    else:
+        print("Number of locations is less than two")
+        exit()
+    if (len(listOfPoints) > 3):
         if bestSolution == 4:
             return landing4, landing4_distances, all_landings_time
     else:
-        print("Number of locations is less than two")
+        print("Number of locations is less than three")
         exit()
     
 
@@ -478,4 +494,4 @@ writeToDistanceFileNN(collectionOfDistanceNN)
 #analyzeDistance(nameFileOne)
 
 # Comment out later just for testing 
-saveObjectiveFunctionImg(all_landings_time)
+# saveObjectiveFunctionImg(all_landings_time)

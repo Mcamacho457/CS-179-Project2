@@ -230,8 +230,9 @@ def KM(listOfPoints):
                     cluster21.clear()
                     cluster22.clear()
                     cluster23.clear()
-
-            # This is for cluster 4
+        
+        # This is for cluster 4
+        if (len(listOfPoints) > 3):
             if (j == 3):
                 cluster31 = []
                 cluster32 = []
