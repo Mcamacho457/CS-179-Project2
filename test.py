@@ -13,6 +13,8 @@ from ModifiedNN import ModifiedNN
 from kMeansAlg import KM
 from kMeansAlg import newCenter
 from route import saveClusterRoutesImg
+from se import error
+import random
 
 class TestEuclidean(unittest.TestCase):
     def test_euclideanCalc(self):
@@ -90,7 +92,7 @@ class TestOutputFile(unittest.TestCase):
         array = [one, two, three, four]
         collectionOfDistance = []
         collectionOfDistance.append((ts, 0.25))
-        outFileName = finalPathToFile(filename, array, collectionOfDistance)
+        outFileName = finalPathToFile(filename, array, collectionOfDistance[-1][0])
         created = False
         print(outFileName)
         if (outFileName == f"{filename.split('/')[-1]}_SOLUTION_{int(round(collectionOfDistance[-1][0]))}.txt"):
@@ -466,5 +468,206 @@ class TestKMeans(unittest.TestCase):
             # due to randomness of KMeans
             else:
                 self.assertAlmostEqual(num_pts, 1000, None, "The first cluster does not have 1/3rd of the points, when it should.", 260)
+
+class TestKMCenter(unittest.TestCase):
+    # tests for the KMeans function when K = 1
+    # tests that the center was set correctly and that all points are assigned to the one cluster
+    def test_1K_Center_50pts_1Circle(self):
+        # setting the properties of the circle (source: Dr. Keogh's "Is your implementation of K-means is correct" slides from Dropbox)
+        xCenter = 0.0
+        yCenter = 0.0
+        radius = 1.0
+        numPoints = 50
+
+        listOfPoints = []
+        number = 0
+        for i in range(0, numPoints):
+            rand_val = random.random()
+            angle = rand_val * 2 * math.pi
+            x = radius * math.cos(angle) + xCenter
+            y = radius * math.sin(angle) + yCenter
+
+            number += 1
+            node = Location(number, 0, float(x), float(y))
+            listOfPoints.append(node)
+
+        total_ses = []
+        clusters = []
+        centers = []
+
+        for i in range(10):
+            newdictionary = KM(listOfPoints)
+            landing1_center1 = newdictionary['dict1']['center1']
+            landing1_cluster1 = newdictionary['dict1']['cluster1']
+            
+            totalse = 0.0
+            for j in range(len(listOfPoints)):
+                se = error(landing1_cluster1[j].x, landing1_cluster1[j].y, landing1_center1.x, landing1_center1.y)
+                totalse += se
+            total_ses.append(totalse)
+            clusters.append(landing1_cluster1)
+            centers.append(landing1_center1)
+
+        best_idx11 = total_ses.index(min(total_ses))
+        best_cluster11 = clusters[best_idx11]
+        best_center11 = centers[best_idx11]
+        landing1_center1 = best_center11
+        landing1_cluster1 = best_cluster11
+
+        path = [best_cluster11[0]]
+        path.append(best_cluster11[0])
+
+        saveClusterRoutesImg(listOfPoints, [best_cluster11], [best_center11], [path], "1kcluster_50Circle.txt")
+
+        self.assertAlmostEqual(landing1_center1.x, 0.0, None, "The center's x value was not set correctly.", 0.30)
+        self.assertAlmostEqual(landing1_center1.y, 0.0, None, "The center's y value was not set correctly.", 0.30)
+        self.assertAlmostEqual(float(len(landing1_cluster1)), 50.0, None, "Not all the points were assigned to the single and same cluster.", 10)
+
+    def test_2K_Center_1000pts_2Circle(self):
+        # tests for the KMeans function when K = 2
+        # tests that the center was set correctly and that half the points are assigned to the left cluster, and other half to 2nd cluster
+        xCenterL = -1.0
+        yCenterL = -1.0
+        numPoints = 1000
+        xCenterR = 1.0
+        yCenterR = 1.0
+        listOfPointsR = []
+        listOfPointsL = []
+        number = 0
+
+        # generates 1000 nodes with 500 in the bottom left corner and 500 in the top right
+        for i in range(0, int(numPoints/2)):
+            rand_val = random.random()
+            rand_radius = random.random()
+            angle = rand_val * 2 * math.pi
+            xL = rand_radius * math.cos(angle) + xCenterL
+            yL = rand_radius * math.sin(angle) + yCenterL
+            xR = rand_radius * math.cos(angle) + xCenterR
+            yR = rand_radius * math.sin(angle) + yCenterR
+
+            number += 1
+            nodeL = Location(number, 0, float(xL), float(yL))
+            listOfPointsL.append(nodeL)
+
+            number += 1
+            nodeR = Location(number, 0, float(xR), float(yR))
+            listOfPointsR.append(nodeR)
+
+        total_ses = []
+        clusters1 = []
+        centers1 = []
+        clusters2 = []
+        centers2 = []
+
+        listOfPoints = listOfPointsR + listOfPointsL
+
+        # performs kmeans 10 times and chooses the best clustering when k = 2
+        for i in range(10):
+            newdictionary = KM(listOfPoints)
+            landing2_center1 = newdictionary['dict2']['center1']
+            landing2_cluster1 = newdictionary['dict2']['cluster1']
+            landing2_center2 = newdictionary['dict2']['center2']
+            landing2_cluster2 = newdictionary['dict2']['cluster2']
+
+            totalse = 0.0
+            for i in range(len(landing2_cluster1)):
+                se = error(landing2_cluster1[i].x, landing2_cluster1[i].y, landing2_center1.x, landing2_center1.y)
+                totalse += se
+
+            for i in range(len(landing2_cluster2)):
+                se = error(landing2_cluster2[i].x, landing2_cluster2[i].y, landing2_center2.x, landing2_center2.y)
+                totalse += se
+
+            total_ses.append(totalse)
+            clusters1.append(landing2_cluster1)
+            centers1.append(landing2_center1)
+            clusters2.append(landing2_cluster2)
+            centers2.append(landing2_center2)
+                
+        best_idx2 = total_ses.index(min(total_ses))
+        best_cluster1 = clusters1[best_idx2]
+        best_center1 = centers1[best_idx2]
+        best_cluster2 = clusters2[best_idx2]
+        best_center2 = centers2[best_idx2]
+        landing2_center1 = best_center1
+        landing2_cluster1 = best_cluster1
+        landing2_center2 = best_center2
+        landing2_cluster2 = best_cluster2
+
+        clusters = []
+        centers = []
+
+        clusters.append(best_cluster1)
+        clusters.append(best_cluster2)
+
+        centers.append(best_center1)
+        centers.append(best_center2)
+
+        path1 = [best_cluster1[0]]
+        path1.append(best_cluster1[0])
+
+        path2 = [best_cluster2[0]]
+        path2.append(best_cluster2[0])
+
+        paths = []
+        paths.append(path1)
+        paths.append(path2)
+
+        saveClusterRoutesImg(listOfPoints, clusters, centers, paths, "2kcluster_1000Circle.txt")
+
+        left_center = 0
+        left_cluster = 0
+        right_center = 0
+        right_cluster = 0
+        if (landing2_center1.x < 0.0 and landing2_center1.y < 0.0):
+            left_center = landing2_center1
+            left_cluster = landing2_cluster1
+
+            right_center = landing2_center2
+            right_cluster = landing2_center2
+        else:
+            left_center = landing2_center2
+            left_cluster = landing2_cluster2
+
+            right_center = landing2_center1
+            right_cluster = landing2_center1
+
+        # tests the properties of the left clusters points and center
+        self.assertAlmostEqual(left_center.x, -1.0, None, "The left center's x value was not set correctly.", 0.30)
+        self.assertAlmostEqual(left_center.y, -1.0, None, "The left center's y value was not set correctly.", 0.30)
+        self.assertAlmostEqual(float(len(left_cluster)), 500.0, None, "Half of the points were not assigned to the left cluster.", 30)
+        
+        # tests the properties of the right clusters points and center
+        self.assertAlmostEqual(right_center.x, 1.0, None, "The right center's x value was not set correctly.", 0.30)
+        self.assertAlmostEqual(right_center.y, 1.0, None, "The right center's y value was not set correctly.", 0.30)
+        self.assertAlmostEqual(float(len(right_cluster)), 500.0, None, "Half of the points were not assigned to the right cluster.", 30)
+
+
+class TestSSE(unittest.TestCase):
+    # tests that the sse function is working and implemented correctly
+    def test_sse_50Circle(self):
+        # setting the properties of the circle (source: Dr. Keogh's "Is your implementation of K-means is correct" slides from Dropbox)
+        xCenter = 0.0
+        yCenter = 0.0
+        radius = 1.0
+        numPoints = 50
+
+        listOfPoints = []
+        number = 0
+        for i in range(0, numPoints):
+            angle = random.random() * 2 * math.pi
+            x = radius * math.cos(angle) + xCenter
+            y = radius * math.sin(angle) + yCenter
+
+            number += 1
+            node = Location(number, 0, float(x), float(y))
+            listOfPoints.append(node)
+
+        totalse = 0.0
+        for i in range(len(listOfPoints)):
+            se = error(listOfPoints[i].x, listOfPoints[i].y, xCenter, yCenter)
+            totalse += se
+        
+        self.assertAlmostEqual(totalse, 50.0, 4, "SSE function is not implemented correctly.")
 if __name__ == "__main__":
     unittest.main()

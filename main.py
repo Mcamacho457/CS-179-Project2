@@ -13,6 +13,7 @@ import os
 from kMeansAlg import KM
 from print import output
 from datetime import datetime, timedelta
+from se import error
 
 # This function reads in the input file which has coordinates for each location
 def FileRead(filename):
@@ -119,9 +120,9 @@ oldlanding4_cluster3 = olddictionary['dict4']['cluster3']
 oldlanding4_center4 = olddictionary['dict4']['center4']
 oldlanding4_cluster4 = olddictionary['dict4']['cluster4']
 
-def error(x1, y1, x2, y2):
-    e = abs(math.pow((x2 - x1), 2) + math.pow((y2 - y1), 2))
-    return e
+# def error(x1, y1, x2, y2):
+#     e = abs(math.pow((x2 - x1), 2) + math.pow((y2 - y1), 2))
+#     return e
 
 total_ses = []
 clusters = []
